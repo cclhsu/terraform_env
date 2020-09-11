@@ -1,0 +1,257 @@
+cclhsu@dell-linux-nb:~/src/github.com/cclhsu/skuba/ci/infra/azure> /home/cclhsu/Documents/myProject/Development/terraform/cd/terraform/terraform_env/cmd.sh
+
+================================================================================
+
+
+>> Load Configuration...
+
+
+
+>> Enter the Number of Action to Be Select: 
+1) create_project_skeleton    4) start_libvirtd	     7) deploy			  10) clean_project		13) output		      16) ssh_to_etcd		    19) ssh_to_worker
+2) install		       5) stop_libvirtd		     8) undeploy		  11) clean_libvirt		14) ssh_to		      17) ssh_to_storage
+3) uninstall		       6) dry_run		     9) status			  12) list_local_images		15) ssh_to_lb		      18) ssh_to_master
+>> Please enter your choice: 7
+7 deploy
+
+>> Time Sync...
+
+Wed Apr 15 22:25:23 CST 2020
+Identity added: /home/cclhsu/.ssh/id_rsa (/home/cclhsu/.ssh/id_rsa)
+
+>> Deploy Nodes...
+
+
+Initializing the backend...
+
+Initializing provider plugins...
+
+The following providers do not have any version constraints in configuration,
+so the latest version was installed.
+
+To prevent automatic upgrades to new major versions that may contain breaking
+changes, it is recommended to add version = "..." constraints to the
+corresponding provider blocks in configuration, with the constraint strings
+suggested below.
+
+* provider.azurerm: version = "~> 2.5"
+* provider.template: version = "~> 2.1"
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+data.template_file.worker_commands[0]: Refreshing state...
+data.template_file.master_commands[0]: Refreshing state...
+data.template_file.etcd_commands[0]: Refreshing state...
+data.template_file.storage_repositories[3]: Refreshing state...
+data.template_file.storage_repositories[11]: Refreshing state...
+data.template_file.storage_repositories[5]: Refreshing state...
+data.template_file.storage_repositories[7]: Refreshing state...
+data.template_file.storage_repositories[6]: Refreshing state...
+data.template_file.storage_repositories[2]: Refreshing state...
+data.template_file.storage_repositories[1]: Refreshing state...
+data.template_file.storage_repositories[13]: Refreshing state...
+data.template_file.storage_repositories[9]: Refreshing state...
+data.template_file.storage_repositories[10]: Refreshing state...
+data.template_file.storage_repositories[8]: Refreshing state...
+data.template_file.storage_repositories[0]: Refreshing state...
+data.template_file.storage_repositories[4]: Refreshing state...
+data.template_file.master_repositories[5]: Refreshing state...
+data.template_file.storage_commands[0]: Refreshing state...
+data.template_file.master_repositories[0]: Refreshing state...
+data.template_file.storage_repositories[12]: Refreshing state...
+data.template_file.master_repositories[6]: Refreshing state...
+data.template_file.master_repositories[10]: Refreshing state...
+data.template_file.master_repositories[1]: Refreshing state...
+data.template_file.master_repositories[8]: Refreshing state...
+data.template_file.master_repositories[12]: Refreshing state...
+data.template_file.master_repositories[3]: Refreshing state...
+data.template_file.master_repositories[7]: Refreshing state...
+data.template_file.master_repositories[2]: Refreshing state...
+data.template_file.worker_repositories[5]: Refreshing state...
+data.template_file.master_repositories[13]: Refreshing state...
+data.template_file.master_repositories[9]: Refreshing state...
+data.template_file.master_repositories[4]: Refreshing state...
+data.template_file.master_repositories[11]: Refreshing state...
+data.template_file.worker_repositories[8]: Refreshing state...
+data.template_file.worker_repositories[0]: Refreshing state...
+data.template_file.worker_repositories[10]: Refreshing state...
+data.template_file.worker_repositories[13]: Refreshing state...
+data.template_file.worker_repositories[3]: Refreshing state...
+data.template_file.worker_repositories[12]: Refreshing state...
+data.template_file.worker_repositories[7]: Refreshing state...
+data.template_file.worker_repositories[6]: Refreshing state...
+data.template_file.worker_repositories[11]: Refreshing state...
+data.template_file.worker_repositories[1]: Refreshing state...
+data.template_file.worker_repositories[2]: Refreshing state...
+data.template_file.worker_repositories[9]: Refreshing state...
+data.template_file.etcd_repositories[8]: Refreshing state...
+data.template_file.worker_repositories[4]: Refreshing state...
+data.template_file.etcd_repositories[5]: Refreshing state...
+data.template_file.etcd_repositories[1]: Refreshing state...
+data.template_file.etcd_repositories[11]: Refreshing state...
+data.template_file.etcd_repositories[6]: Refreshing state...
+data.template_file.etcd_repositories[2]: Refreshing state...
+data.template_file.etcd_repositories[0]: Refreshing state...
+data.template_file.etcd_repositories[12]: Refreshing state...
+data.template_file.etcd_repositories[4]: Refreshing state...
+data.template_file.etcd_repositories[7]: Refreshing state...
+data.template_file.etcd_repositories[3]: Refreshing state...
+data.template_file.etcd_repositories[13]: Refreshing state...
+data.template_file.etcd_repositories[9]: Refreshing state...
+data.template_file.etcd_repositories[10]: Refreshing state...
+data.template_file.storage_cloud-init: Refreshing state...
+data.template_file.worker_cloud-init: Refreshing state...
+data.template_file.master_cloud-init: Refreshing state...
+data.template_cloudinit_config.storage_cfg: Refreshing state...
+data.template_file.etcd_cloud-init: Refreshing state...
+data.template_cloudinit_config.worker_cfg: Refreshing state...
+data.template_cloudinit_config.master_cfg: Refreshing state...
+data.template_cloudinit_config.etcd_cfg: Refreshing state...
+azurerm_resource_group.resource_group: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group]
+azurerm_public_ip.worker[1]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/publicIPAddresses/sles-101-worker-1-ip]
+data.azurerm_platform_image.sles_chost_byos: Refreshing state...
+azurerm_public_ip.worker[0]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/publicIPAddresses/sles-101-worker-0-ip]
+azurerm_public_ip.master[0]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/publicIPAddresses/sles-101-master-0-ip]
+azurerm_private_dns_zone.dns_zone: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/privateDnsZones/my-cluster-101.example.com]
+azurerm_public_ip.lb: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/publicIPAddresses/control-plane]
+azurerm_network_security_group.etcd: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-etcd]
+azurerm_network_security_group.worker: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-worker]
+azurerm_network_security_group.storage: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-storage]
+azurerm_network_security_group.master: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-master]
+azurerm_virtual_network.virtual_network: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/virtualNetworks/sles-101-virtual_network]
+azurerm_network_security_rule.storage[0]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-storage/securityRules/ssh]
+azurerm_network_security_rule.storage[1]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-storage/securityRules/cilium-health-check]
+azurerm_network_security_rule.storage[3]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-storage/securityRules/api-server_to_kubelet]
+azurerm_network_security_rule.storage[5]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-storage/securityRules/services-NodePort-tcp]
+azurerm_network_security_rule.storage[4]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-storage/securityRules/kubeproxy-health-check]
+azurerm_network_security_rule.storage[6]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-storage/securityRules/services-NodePort-udp]
+azurerm_network_security_rule.storage[2]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-storage/securityRules/cilium-vxlan]
+azurerm_network_security_rule.worker[4]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-worker/securityRules/kubeproxy-health-check]
+azurerm_network_security_rule.worker[6]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-worker/securityRules/services-NodePort-udp]
+azurerm_network_security_rule.worker[5]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-worker/securityRules/services-NodePort-tcp]
+azurerm_network_security_rule.worker[0]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-worker/securityRules/ssh]
+azurerm_network_security_rule.worker[1]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-worker/securityRules/cilium-health-check]
+azurerm_network_security_rule.worker[3]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-worker/securityRules/api-server_to_kubelet]
+azurerm_network_security_rule.worker[2]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-worker/securityRules/cilium-vxlan]
+azurerm_network_security_rule.etcd[4]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-etcd/securityRules/kubeproxy-health-check]
+azurerm_network_security_rule.etcd[2]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-etcd/securityRules/cilium-vxlan]
+azurerm_network_security_rule.etcd[6]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-etcd/securityRules/services-NodePort-udp]
+azurerm_network_security_rule.etcd[3]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-etcd/securityRules/api-server_to_kubelet]
+azurerm_network_security_rule.etcd[0]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-etcd/securityRules/ssh]
+azurerm_network_security_rule.etcd[1]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-etcd/securityRules/cilium-health-check]
+azurerm_network_security_rule.etcd[5]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-etcd/securityRules/services-NodePort-tcp]
+azurerm_network_security_rule.master[1]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-master/securityRules/cilium-health-check]
+azurerm_network_security_rule.master[7]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-master/securityRules/etcd-internal]
+azurerm_network_security_rule.master[2]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-master/securityRules/cilium-vxlan]
+azurerm_network_security_rule.master[6]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-master/securityRules/services-NodePort-udp]
+azurerm_network_security_rule.master[5]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-master/securityRules/services-NodePort-tcp]
+azurerm_network_security_rule.master[0]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-master/securityRules/ssh]
+azurerm_network_security_rule.master[3]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-master/securityRules/api-server_to_kubelet]
+azurerm_network_security_rule.master[4]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-master/securityRules/kubeproxy-health-check]
+azurerm_network_security_rule.master[8]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-master/securityRules/api-server]
+azurerm_lb.lb: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/loadBalancers/sles-101-lb]
+azurerm_subnet.nodes: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/virtualNetworks/sles-101-virtual_network/subnets/sles-101-nodes]
+azurerm_private_dns_zone_virtual_network_link.internal_dns: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/privateDnsZones/my-cluster-101.example.com/virtualNetworkLinks/caasp]
+azurerm_lb_probe.kube_api: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/loadBalancers/sles-101-lb/probes/kube-apisever-running-probe]
+azurerm_lb_probe.kube_dex: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/loadBalancers/sles-101-lb/probes/kube-dex-running-probe]
+azurerm_lb_probe.kube_gangway: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/loadBalancers/sles-101-lb/probes/kube-gangway-running-probe]
+azurerm_lb_backend_address_pool.masters: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/loadBalancers/sles-101-lb/backendAddressPools/master-nodes]
+azurerm_network_interface.master[0]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkInterfaces/sles-101-master-0-nic]
+azurerm_network_interface.worker[1]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkInterfaces/sles-101-worker-1-nic]
+azurerm_network_interface.worker[0]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkInterfaces/sles-101-worker-0-nic]
+azurerm_lb_rule.kube_dex: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/loadBalancers/sles-101-lb/loadBalancingRules/kube-dex]
+azurerm_lb_rule.kube_gangway: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/loadBalancers/sles-101-lb/loadBalancingRules/kube-gangway]
+azurerm_lb_rule.kube_api: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/loadBalancers/sles-101-lb/loadBalancingRules/kube-api-server]
+azurerm_network_interface_security_group_association.master[0]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkInterfaces/sles-101-master-0-nic|/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-master]
+azurerm_network_interface_backend_address_pool_association.kube_api[0]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkInterfaces/sles-101-master-0-nic/ipConfigurations/internal|/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/loadBalancers/sles-101-lb/backendAddressPools/master-nodes]
+azurerm_network_interface_security_group_association.worker[1]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkInterfaces/sles-101-worker-1-nic|/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-worker]
+azurerm_network_interface_security_group_association.worker[0]: Refreshing state... [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkInterfaces/sles-101-worker-0-nic|/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Network/networkSecurityGroups/sles-101-worker]
+azurerm_linux_virtual_machine.master[0]: Creating...
+azurerm_linux_virtual_machine.worker[1]: Creating...
+azurerm_linux_virtual_machine.worker[0]: Creating...
+azurerm_linux_virtual_machine.worker[1]: Still creating... [10s elapsed]
+azurerm_linux_virtual_machine.master[0]: Still creating... [10s elapsed]
+azurerm_linux_virtual_machine.worker[0]: Still creating... [10s elapsed]
+azurerm_linux_virtual_machine.worker[0]: Still creating... [20s elapsed]
+azurerm_linux_virtual_machine.master[0]: Still creating... [20s elapsed]
+azurerm_linux_virtual_machine.worker[1]: Still creating... [20s elapsed]
+azurerm_linux_virtual_machine.worker[0]: Still creating... [30s elapsed]
+azurerm_linux_virtual_machine.master[0]: Still creating... [30s elapsed]
+azurerm_linux_virtual_machine.worker[1]: Still creating... [30s elapsed]
+azurerm_linux_virtual_machine.worker[0]: Still creating... [40s elapsed]
+azurerm_linux_virtual_machine.master[0]: Still creating... [40s elapsed]
+azurerm_linux_virtual_machine.worker[1]: Still creating... [40s elapsed]
+azurerm_linux_virtual_machine.master[0]: Still creating... [50s elapsed]
+azurerm_linux_virtual_machine.worker[0]: Still creating... [50s elapsed]
+azurerm_linux_virtual_machine.worker[1]: Still creating... [50s elapsed]
+azurerm_linux_virtual_machine.master[0]: Still creating... [1m0s elapsed]
+azurerm_linux_virtual_machine.worker[0]: Still creating... [1m0s elapsed]
+azurerm_linux_virtual_machine.worker[1]: Still creating... [1m0s elapsed]
+azurerm_linux_virtual_machine.master[0]: Still creating... [1m10s elapsed]
+azurerm_linux_virtual_machine.worker[0]: Still creating... [1m10s elapsed]
+azurerm_linux_virtual_machine.worker[1]: Still creating... [1m10s elapsed]
+azurerm_linux_virtual_machine.master[0]: Still creating... [1m20s elapsed]
+azurerm_linux_virtual_machine.worker[1]: Still creating... [1m20s elapsed]
+azurerm_linux_virtual_machine.worker[0]: Still creating... [1m20s elapsed]
+azurerm_linux_virtual_machine.worker[1]: Still creating... [1m30s elapsed]
+azurerm_linux_virtual_machine.master[0]: Still creating... [1m30s elapsed]
+azurerm_linux_virtual_machine.worker[0]: Still creating... [1m30s elapsed]
+azurerm_linux_virtual_machine.master[0]: Still creating... [1m40s elapsed]
+azurerm_linux_virtual_machine.worker[1]: Still creating... [1m40s elapsed]
+azurerm_linux_virtual_machine.worker[0]: Still creating... [1m40s elapsed]
+azurerm_linux_virtual_machine.master[0]: Still creating... [1m50s elapsed]
+azurerm_linux_virtual_machine.worker[1]: Still creating... [1m50s elapsed]
+azurerm_linux_virtual_machine.worker[0]: Still creating... [1m50s elapsed]
+azurerm_linux_virtual_machine.master[0]: Still creating... [2m0s elapsed]
+azurerm_linux_virtual_machine.worker[1]: Still creating... [2m0s elapsed]
+azurerm_linux_virtual_machine.worker[0]: Still creating... [2m0s elapsed]
+azurerm_linux_virtual_machine.master[0]: Still creating... [2m10s elapsed]
+azurerm_linux_virtual_machine.worker[1]: Still creating... [2m10s elapsed]
+azurerm_linux_virtual_machine.worker[0]: Still creating... [2m10s elapsed]
+azurerm_linux_virtual_machine.master[0]: Still creating... [2m20s elapsed]
+azurerm_linux_virtual_machine.worker[0]: Still creating... [2m20s elapsed]
+azurerm_linux_virtual_machine.worker[1]: Still creating... [2m20s elapsed]
+azurerm_linux_virtual_machine.master[0]: Still creating... [2m30s elapsed]
+azurerm_linux_virtual_machine.worker[1]: Still creating... [2m30s elapsed]
+azurerm_linux_virtual_machine.worker[0]: Still creating... [2m30s elapsed]
+azurerm_linux_virtual_machine.worker[1]: Still creating... [2m40s elapsed]
+azurerm_linux_virtual_machine.master[0]: Still creating... [2m40s elapsed]
+azurerm_linux_virtual_machine.worker[0]: Still creating... [2m40s elapsed]
+azurerm_linux_virtual_machine.worker[0]: Creation complete after 2m45s [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Compute/virtualMachines/sles-101-worker-0]
+azurerm_linux_virtual_machine.worker[1]: Creation complete after 2m46s [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Compute/virtualMachines/sles-101-worker-1]
+azurerm_linux_virtual_machine.master[0]: Creation complete after 2m46s [id=/subscriptions/c011786b-59d7-4817-880c-7cd8a6ca4b19/resourceGroups/sles-101-resource-group/providers/Microsoft.Compute/virtualMachines/sles-101-master-0]
+
+Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+bastion_host = creation disabled
+etcds = {}
+loadbalancer = {
+  "fqdn" = "sles-101.westeurope.cloudapp.azure.com"
+  "public_ip" = "20.50.25.43"
+}
+masters = {
+  "sles-101-master-0.my-cluster-101.example.com" = {
+    "private_ip" = "10.1.4.6"
+    "public_ip" = "20.50.25.4"
+  }
+}
+storages = {}
+workers = {
+  "sles-101-worker-0.my-cluster-101.example.com" = {
+    "private_ip" = "10.1.4.4"
+  }
+  "sles-101-worker-1.my-cluster-101.example.com" = {
+    "private_ip" = "10.1.4.5"
+  }
+}
+
+================================================================================

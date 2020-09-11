@@ -1,0 +1,17 @@
+[Global]
+user = "<VC_USERNAME>"
+password = "<VC_PASSWORD>"
+port = "443"
+insecure-flag = "1"
+[VirtualCenter <VC_IP_OR_FQDN>]
+datacenters = "<VC_DATACENTERS>"
+[Workspace]
+server = "<VC_IP_OR_FQDN>"
+datacenter = "<VC_DATACENTER>"
+default-datastore = "<VC_DATASTORE>"
+resourcepool-path = "<VC_RESOURCEPOOL_PATH>"
+folder = "<VC_VM_FOLDER>"
+[Disk]
+scsicontrollertype = pvscsi
+[Network]
+public-network = "VM Network"
