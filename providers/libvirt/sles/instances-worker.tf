@@ -3,8 +3,14 @@ data "template_file" "worker_repositories" {
   template = file("${path.module}/cloud-init/repository.tpl")
 
   vars = {
-    repository_url  = element(values(var.repositories), count.index)
-    repository_name = element(keys(var.repositories), count.index)
+    repository_url = element(
+      values(var.repositories),
+      count.index
+    )
+    repository_name = element(
+      keys(var.repositories),
+      count.index
+    )
   }
 }
 
@@ -34,7 +40,7 @@ data "template_file" "worker_commands" {
   template = file("${path.module}/cloud-init/commands.tpl")
 
   vars = {
-    packages = join(", ", var.packages)
+    packages = join(" ", var.packages)
   }
 }
 
@@ -54,7 +60,7 @@ data "template_file" "worker_cloud-init" {
     register_scc       = var.caasp_registry_code != "" && var.rmt_server_name == "" ? join("\n", data.template_file.worker_register_scc.*.rendered) : ""
     register_rmt       = var.rmt_server_name == "" ? join("\n", data.template_file.worker_register_rmt.*.rendered) : ""
     commands           = join("\n", data.template_file.worker_commands.*.rendered)
-    # packages        = join("\n", formatlist("  - %s", var.packages))
+    # packages           = join("\n", formatlist("  - %s", var.packages))
   }
 }
 
@@ -76,11 +82,15 @@ resource "libvirt_cloudinit_disk" "worker" {
 
 # Create the machine
 resource "libvirt_domain" "worker" {
-  count      = var.workers
-  name       = "${var.stack_name}-worker-domain-${count.index}"
-  memory     = var.worker_memory
-  vcpu       = var.worker_vcpu
-  cloudinit  = element(libvirt_cloudinit_disk.worker.*.id, count.index)
+  count  = var.workers
+  name   = "${var.stack_name}-worker-domain-${count.index}"
+  memory = var.worker_memory
+  vcpu   = var.worker_vcpu
+  # emulator = "/usr/bin/qemu-system-x86_64"
+  cloudinit = element(
+    libvirt_cloudinit_disk.worker.*.id,
+    count.index
+  )
   depends_on = [libvirt_domain.lb, ]
 
   network_interface {
@@ -95,8 +105,8 @@ resource "libvirt_domain" "worker" {
   # https://bugs.launchpad.net/cloud-images/+bug/1573095
   console {
     type        = "pty"
-    target_port = "0"
     target_type = "serial"
+    target_port = "0"
   }
 
   console {
@@ -110,7 +120,10 @@ resource "libvirt_domain" "worker" {
   }
 
   disk {
-    volume_id = element(libvirt_volume.worker.*.id, count.index)
+    volume_id = element(
+      libvirt_volume.worker.*.id,
+      count.index
+    )
   }
 
   graphics {
@@ -135,7 +148,7 @@ resource "null_resource" "worker_wait_cloudinit" {
 
   provisioner "remote-exec" {
     inline = [
-      "cloud-init status --wait > /dev/null",
+      "sudo cloud-init status --wait > /dev/null",
     ]
   }
 }
@@ -149,7 +162,7 @@ resource "null_resource" "worker_reboot" {
       user = var.username
       host = element(
         libvirt_domain.worker.*.network_interface.0.addresses.0,
-        count.index,
+        count.index
       )
     }
 
@@ -166,6 +179,5 @@ if ! ssh $sshopts $user@$host 'sudo needs-restarting -r'; then
     done
 fi
 EOT
-
   }
 }

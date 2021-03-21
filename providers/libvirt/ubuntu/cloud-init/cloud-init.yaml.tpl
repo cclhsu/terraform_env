@@ -52,7 +52,7 @@ ${ntp_servers}
 # manage_resolv_conf: true
 # resolv_conf:
 #   nameservers:
-# ${dns_nameservers}
+# $${dns_nameservers}
 
 packages:
 ${packages}

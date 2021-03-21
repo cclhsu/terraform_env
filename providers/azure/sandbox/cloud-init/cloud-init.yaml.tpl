@@ -20,39 +20,42 @@ locale: en_US.UTF-8
 # set timezone
 timezone: Etc/UTC
 
-users:
-  - name: ${username}
-    ssh-authorized-keys:
-      ${authorized_keys}
-    sudo: ['ALL=(ALL) NOPASSWD:ALL']
-    groups: sudo
-    shell: /bin/bash
+# users:
+#   - name: $${username}
+#     ssh-authorized-keys:
+#       $${authorized_keys}
+#     sudo: ['ALL=(ALL) NOPASSWD:ALL']
+#     groups: sudo
+#     shell: /bin/bash
 
-# set root password
-ssh_pwauth: True
-chpasswd:
-  list: |
-    root:linux
-    ${username}:${password}
-  expire: False
+# # set root password
+# ssh_pwauth: True
+# chpasswd:
+#   list: |
+#     root:linux
+#     $${username}:$${password}
+#   expire: False
 
 # Inject the public keys
 ssh_authorized_keys:
 ${authorized_keys}
 
-ntp:
-  enabled: true
-  ntp_client: chrony
-  config:
-    confpath: /etc/chrony.conf
-  servers:
-${ntp_servers}
+# NOT WORKING for AWS and AZURE
+# ntp:
+#   enabled: true
+#   ntp_client: chrony
+#   config:
+#     confpath: /etc/chrony.d/chrony.conf
+#   servers:
+# $${ntp_servers}}
 
+
+# NOT WORKING for AWS and AZURE
 # # https://www.thinbug.com/q/49826047
 # manage_resolv_conf: true
 # resolv_conf:
 #   nameservers:
-# ${dns_nameservers}
+# $${dns_nameservers}
 
 # # need to disable gpg checks because the cloud image has an untrusted repo
 # zypper:
@@ -62,13 +65,12 @@ ${ntp_servers}
 #     gpgcheck: "off"
 #     solver.onlyRequires: "true"
 #     download.use_deltarpm: "true"
-# need to remove the standard docker packages that are pre-installed on the
-# cloud image because they conflict with the kubic- ones that are pulled by
-# the kubernetes packages
+
 # WARNING!!! Do not use cloud-init packages module when SUSE CaaSP Registration
 # Code is provided. In this case, repositories will be added in runcmd module
 # with SUSEConnect command after packages module is ran
 # packages:
+# $${packages}
 
 bootcmd:
   - ip link set dev eth0 mtu 1500
@@ -77,6 +79,7 @@ runcmd:
 ${register_scc}
 ${register_rmt}
 ${register_suma}
+${repositories}
 ${commands}
 
 final_message: "The system is finally up, after $UPTIME seconds"

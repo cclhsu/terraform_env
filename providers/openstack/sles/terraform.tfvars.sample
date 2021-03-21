@@ -117,8 +117,8 @@ password = "linux"
 # Optional: Define the repositories to use
 # EXAMPLE:
 # repositories = {
-#   repository1 = "http://repo.example.com/repository1/"
-#   repository2 = "http://repo.example.com/repository2/"
+#   repository1 = "http://example.my.repo.com/repository3/"
+#   repository2 = "http://example.my.repo.com/repository4/"
 # }
 # repositories = {}
 
@@ -155,9 +155,6 @@ packages = [
   "kernel-default",
   "-kernel-default-base",
   "ca-certificates-suse",
-  "gdb",
-  "systemd-coredump",
-  "lz4"
 ]
 
 # ssh keys to inject into all the nodes
@@ -169,7 +166,7 @@ authorized_keys = [
 
 ]
 
-# ssh key on openstack to launch the nodes with
+# ssh key to launch the nodes with
 # EXAMPLE:
 # key_pair = "my_keypair"
 key_pair = ""

@@ -1,8 +1,14 @@
 # URL of the libvirt server
 # EXAMPLE:
+# libvirt_uri = "test:///default"
 # libvirt_uri = "qemu:///system"
 # libvirt_uri = "qemu:///session"
+# libvirt_uri = "qemu:///session?socket=${HOME}/.cache/libvirt/libvirt-sock"
 # libvirt_uri = "qemu+ssh://root@192.168.100.10/system"
+# libvirt_uri = "qemu+ssh://root@192.168.100.10/session"
+# libvirt_uri = "qemu+ssh://${SSH_USER}@${FQDN}/system?socket=/var/run/libvirt/libvirt-sock"
+# libvirt_uri = "qemu+ssh://${SSH_USER}@${FQDN}/session?socket=${HOME}/.cache/libvirt/libvirt-sock"
+libvirt_uri = "qemu:///system"
 
 # Path of the key file used to connect to the libvirt server
 # Note this value will be appended to the libvirt_uri as a 'keyfile' query: <libvirt_uri>?keyfile=<libvirt_keyfile>
@@ -15,13 +21,20 @@ libvirt_keyfile = ""
 
 # URL of the image to use
 # EXAMPLE:
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/alpine/alpine-standard-3.12.3-x86_64.qcow2"
 # lb_image_uri = "CentOS-7-x86_64-GenericCloud.qcow2"
 # lb_image_uri = "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2"
-# lb_image_uri = "/home/cclhsu/Documents/myImages/kvm/centos/CentOS-7-x86_64-GenericCloud.qcow2"
-# lb_image_uri = "/Users/clark_hsu/Documents/myImages/kvm/centos/CentOS-7-x86_64-GenericCloud.qcow2"
-lb_image_uri = "/home/cclhsu/Documents/myImages/kvm/debian/debian-10.5.0-openstack-amd64.qcow2"
-# lb_image_uri = "/home/cclhsu/Documents/myImages/kvm/opensuse/openSUSE-Leap-15.2-OpenStack.x86_64.qcow2"
-# lb_image_uri = "/home/cclhsu/Documents/myImages/kvm/ubuntu/ubuntu-18.04-server-cloudimg-amd64.img"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/centos/CentOS-7-x86_64-GenericCloud.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/coreos/fedora-coreos-33.20210217.3.0-qemu.x86_64.qcow2.xz"
+lb_image_uri = "${HOME}/Documents/myImages/kvm/debian/debian-10.5.0-openstack-amd64.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/fedora/Fedora-Cloud-Base-32-1.6.x86_64.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/opensuse-leap/openSUSE-Leap-15.2-OpenStack.x86_64.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/opensuse-tumbleweed/openSUSE-Tumbleweed-JeOS.x86_64-OpenStack-Cloud.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/rancher-k3os/k3os-amd64.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/rancher-os/rancheros.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/raspios/2020-12-11-raspios-buster-i386.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/sles/SLES15-SP2-JeOS.x86_64-15.2-OpenStack-Cloud-GM.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/ubuntu/ubuntu-18.04-server-cloudimg-amd64.img"
 
 # URL of the image to use
 # EXAMPLE:
@@ -34,26 +47,28 @@ image_uri = "${HOME}/Documents/myImages/kvm/debian/debian-10.5.0-openstack-amd64
 stack_name = "debian"
 
 # CIDR of the network
-network_cidr = "10.17.0.0/18"
+network_cidr = "10.17.0.0/22"
 
 # Enable creation of LB node
 create_lb = true
 
 # Number of etcd nodes
-etcds = 0
+etcds       = 0
 etcd_memory = 5120
 
 # Number of storage nodes
-storages = 0
+storages       = 0
 storage_memory = 5120
 
 # Number of master nodes
 masters       = 1
 master_memory = 5120
+master_vcpu   = 2
 
 # Number of worker nodes
-workers       = 1
+workers       = 3
 worker_memory = 5120
+worker_vcpu   = 4
 
 # Name of DNS domain
 dns_domain = "debian.local"
@@ -69,16 +84,16 @@ password = "linux"
 # define the repositories to use for the loadbalancer node
 # EXAMPLE:
 # lb_repositories = {
-#   repository1 = "http://example.my.repo.com/repository3/"
-#   repository2 = "http://example.my.repo.com/repository4/"
+#   repository1 = "http://example.my.repo.com/repository1/"
+#   repository2 = "http://example.my.repo.com/repository2/"
 # }
 lb_repositories = {}
 
 # Optional: Define the repositories to use
 # EXAMPLE:
 # repositories = {
-#   repository1 = "http://repo.example.com/repository1/"
-#   repository2 = "http://repo.example.com/repository2/"
+#   repository1 = "http://example.my.repo.com/repository3/"
+#   repository2 = "http://example.my.repo.com/repository4/"
 # }
 repositories = {}
 
@@ -86,12 +101,14 @@ repositories = {}
 # Feel free to add more packages
 packages = [
   "python3",
-  "python3-apt",
-  "python-apt",
+  "curl",
+  "wget",
+  "rsync",
+  "jq",
+  "which",
   "openssl",
-  "gdb",
-  "systemd-coredump",
-  "lz4"
+  "open-iscsi",
+  "nfs-kernel-server"
 ]
 
 # ssh keys to inject into all the nodes
@@ -103,7 +120,7 @@ authorized_keys = [
   ""
 ]
 
-# ssh key on openstack to launch the nodes with
+# ssh key to launch the nodes with
 # EXAMPLE:
 # key_pair = "my_keypair"
 

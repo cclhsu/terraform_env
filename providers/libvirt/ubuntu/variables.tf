@@ -68,7 +68,9 @@ variable "packages" {
   type = list(string)
 
   default = [
-    "openssl"
+    "openssl",
+    "open-iscsi",
+    "nfs-kernel-server"
   ]
 
   description = "List of packages to install"
@@ -116,6 +118,12 @@ variable "create_lb" {
   description = "Create load balancer node exposing master nodes"
 }
 
+variable "create_http_server" {
+  type        = bool
+  default     = true
+  description = "Create http server in load balancer node"
+}
+
 variable "lb_memory" {
   type        = number
   default     = 2048
@@ -130,7 +138,7 @@ variable "lb_vcpu" {
 
 variable "lb_disk_size" {
   type        = number
-  default     = 25769803776
+  default     = 32212254720
   description = "Disk size (in bytes)"
 }
 
@@ -153,7 +161,7 @@ variable "etcd_vcpu" {
 }
 
 variable "etcd_disk_size" {
-  default     = 25769803776
+  default     = 32212254720
   description = "Disk size (in bytes)"
 }
 
@@ -177,7 +185,7 @@ variable "storage_vcpu" {
 
 variable "storage_disk_size" {
   type        = number
-  default     = 25769803776
+  default     = 32212254720
   description = "Disk size (in bytes)"
 }
 
@@ -201,7 +209,7 @@ variable "master_vcpu" {
 
 variable "master_disk_size" {
   type        = number
-  default     = 25769803776
+  default     = 32212254720
   description = "Disk size (in bytes)"
 }
 
@@ -225,7 +233,7 @@ variable "worker_vcpu" {
 
 variable "worker_disk_size" {
   type        = number
-  default     = 25769803776
+  default     = 32212254720
   description = "Disk size (in bytes)"
 }
 

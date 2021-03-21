@@ -3,8 +3,14 @@ data "template_file" "storage_repositories" {
   template = file("${path.module}/cloud-init/repository.tpl")
 
   vars = {
-    repository_url  = element(values(var.repositories), count.index)
-    repository_name = element(keys(var.repositories), count.index)
+    repository_url = element(
+      values(var.repositories),
+      count.index
+    )
+    repository_name = element(
+      keys(var.repositories),
+      count.index
+    )
   }
 }
 
@@ -34,7 +40,7 @@ data "template_file" "storage_commands" {
   template = file("${path.module}/cloud-init/commands.tpl")
 
   vars = {
-    packages = join(", ", var.packages)
+    packages = join(" ", var.packages)
   }
 }
 
@@ -54,7 +60,7 @@ data "template_file" "storage_cloud-init" {
     register_scc       = var.caasp_registry_code != "" && var.rmt_server_name == "" ? join("\n", data.template_file.storage_register_scc.*.rendered) : ""
     register_rmt       = var.rmt_server_name == "" ? join("\n", data.template_file.storage_register_rmt.*.rendered) : ""
     commands           = join("\n", data.template_file.storage_commands.*.rendered)
-    # packages        = join("\n", formatlist("  - %s", var.packages))
+    # packages           = join("\n", formatlist("  - %s", var.packages))
   }
 }
 
@@ -66,10 +72,6 @@ resource "libvirt_volume" "storage" {
   base_volume_id = libvirt_volume.image.id
 }
 
-# for more info about paramater check this out
-# https://github.com/dmacvicar/terraform-provider-libvirt/blob/master/website/docs/r/cloudinit.html.markdown
-# Use CloudInit to add our ssh-key to the instance
-# you can add also meta_data field
 resource "libvirt_cloudinit_disk" "storage" {
   # needed when 0 storage nodes are defined
   count     = var.storages
@@ -80,11 +82,15 @@ resource "libvirt_cloudinit_disk" "storage" {
 
 # Create the machine
 resource "libvirt_domain" "storage" {
-  count      = var.storages
-  name       = "${var.stack_name}-storage-domain-${count.index}"
-  memory     = var.storage_memory
-  vcpu       = var.storage_vcpu
-  cloudinit  = element(libvirt_cloudinit_disk.storage.*.id, count.index)
+  count  = var.storages
+  name   = "${var.stack_name}-storage-domain-${count.index}"
+  memory = var.storage_memory
+  vcpu   = var.storage_vcpu
+  # emulator = "/usr/bin/qemu-system-x86_64"
+  cloudinit = element(
+    libvirt_cloudinit_disk.storage.*.id,
+    count.index
+  )
   depends_on = [libvirt_domain.lb, ]
 
   network_interface {
@@ -99,8 +105,8 @@ resource "libvirt_domain" "storage" {
   # https://bugs.launchpad.net/cloud-images/+bug/1573095
   console {
     type        = "pty"
-    target_port = "0"
     target_type = "serial"
+    target_port = "0"
   }
 
   console {
@@ -114,7 +120,10 @@ resource "libvirt_domain" "storage" {
   }
 
   disk {
-    volume_id = element(libvirt_volume.storage.*.id, count.index)
+    volume_id = element(
+      libvirt_volume.storage.*.id,
+      count.index
+    )
   }
 
   graphics {
@@ -139,7 +148,7 @@ resource "null_resource" "storage_wait_cloudinit" {
 
   provisioner "remote-exec" {
     inline = [
-      "cloud-init status --wait > /dev/null",
+      "sudo cloud-init status --wait > /dev/null",
     ]
   }
 }
@@ -153,7 +162,7 @@ resource "null_resource" "storage_reboot" {
       user = var.username
       host = element(
         libvirt_domain.storage.*.network_interface.0.addresses.0,
-        count.index,
+        count.index
       )
     }
 
@@ -170,6 +179,5 @@ if ! ssh $sshopts $user@$host 'sudo needs-restarting -r'; then
     done
 fi
 EOT
-
   }
 }

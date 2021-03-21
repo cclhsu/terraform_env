@@ -32,8 +32,14 @@ data "template_file" "repositories" {
   template = file("${path.module}/init/repository.tpl")
 
   vars = {
-    repository_url  = element(values(var.repositories), count.index)
-    repository_name = element(keys(var.repositories), count.index)
+    repository_url = element(
+      values(var.repositories),
+      count.index
+    )
+    repository_name = element(
+      keys(var.repositories),
+      count.index
+    )
   }
 }
 
@@ -60,7 +66,7 @@ data "template_file" "commands" {
   template = file("${path.module}/init/commands.tpl")
 
   vars = {
-    packages = join(", ", var.packages)
+    packages = join(" ", var.packages)
   }
 }
 

@@ -3,8 +3,14 @@ data "template_file" "master_repositories" {
   template = file("${path.module}/cloud-init/repository.tpl")
 
   vars = {
-    repository_url  = element(values(var.repositories), count.index)
-    repository_name = element(keys(var.repositories), count.index)
+    repository_url = element(
+      values(var.repositories),
+      count.index
+    )
+    repository_name = element(
+      keys(var.repositories),
+      count.index
+    )
   }
 }
 
@@ -34,7 +40,7 @@ data "template_file" "master_commands" {
   template = file("${path.module}/cloud-init/commands.tpl")
 
   vars = {
-    packages = join(", ", var.packages)
+    packages = join(" ", var.packages)
   }
 }
 
@@ -50,11 +56,11 @@ data "template_file" "master_cloud-init" {
     hostname_from_dhcp = var.hostname_from_dhcp == true && var.cpi_enable == false ? "yes" : "no"
     ntp_servers        = join("\n", formatlist("    - %s", var.ntp_servers))
     dns_nameservers    = join("\n", formatlist("    - %s", var.dns_nameservers))
-    repositories       = length(var.repositories) == 0 ? "\n" : join("\n", data.template_file.repositories.*.rendered)
+    repositories       = length(var.repositories) == 0 ? "\n" : join("\n", data.template_file.master_repositories.*.rendered)
     register_scc       = var.caasp_registry_code != "" && var.rmt_server_name == "" ? join("\n", data.template_file.master_register_scc.*.rendered) : ""
     register_rmt       = var.rmt_server_name == "" ? join("\n", data.template_file.master_register_rmt.*.rendered) : ""
     commands           = join("\n", data.template_file.master_commands.*.rendered)
-    # packages        = join("\n", formatlist("  - %s", var.packages))
+    # packages           = join("\n", formatlist("  - %s", var.packages))
   }
 }
 
@@ -76,11 +82,15 @@ resource "libvirt_cloudinit_disk" "master" {
 
 # Create the machine
 resource "libvirt_domain" "master" {
-  count      = var.masters
-  name       = "${var.stack_name}-master-domain-${count.index}"
-  memory     = var.master_memory
-  vcpu       = var.master_vcpu
-  cloudinit  = element(libvirt_cloudinit_disk.master.*.id, count.index)
+  count  = var.masters
+  name   = "${var.stack_name}-master-domain-${count.index}"
+  memory = var.master_memory
+  vcpu   = var.master_vcpu
+  # emulator = "/usr/bin/qemu-system-x86_64"
+  cloudinit = element(
+    libvirt_cloudinit_disk.master.*.id,
+    count.index
+  )
   depends_on = [libvirt_domain.lb, ]
 
   network_interface {
@@ -95,8 +105,8 @@ resource "libvirt_domain" "master" {
   # https://bugs.launchpad.net/cloud-images/+bug/1573095
   console {
     type        = "pty"
-    target_port = "0"
     target_type = "serial"
+    target_port = "0"
   }
 
   console {
@@ -110,7 +120,10 @@ resource "libvirt_domain" "master" {
   }
 
   disk {
-    volume_id = element(libvirt_volume.master.*.id, count.index)
+    volume_id = element(
+      libvirt_volume.master.*.id,
+      count.index
+    )
   }
 
   graphics {
@@ -135,7 +148,7 @@ resource "null_resource" "master_wait_cloudinit" {
 
   provisioner "remote-exec" {
     inline = [
-      "cloud-init status --wait > /dev/null",
+      "sudo cloud-init status --wait > /dev/null",
     ]
   }
 }
@@ -166,6 +179,5 @@ if ! ssh $sshopts $user@$host 'sudo needs-restarting -r'; then
     done
 fi
 EOT
-
   }
 }

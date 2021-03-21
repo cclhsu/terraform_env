@@ -38,11 +38,15 @@ resource "libvirt_cloudinit_disk" "storage" {
 
 # Create the machine
 resource "libvirt_domain" "storage" {
-  count      = var.storages
-  name       = "${var.stack_name}-storage-domain-${count.index}"
-  memory     = var.storage_memory
-  vcpu       = var.storage_vcpu
-  cloudinit  = element(libvirt_cloudinit_disk.storage.*.id, count.index)
+  count  = var.storages
+  name   = "${var.stack_name}-storage-domain-${count.index}"
+  memory = var.storage_memory
+  vcpu   = var.storage_vcpu
+  # emulator = "/usr/bin/qemu-system-x86_64"
+  cloudinit = element(
+    libvirt_cloudinit_disk.storage.*.id,
+    count.index
+  )
   depends_on = [libvirt_domain.lb, ]
 
   network_interface {
@@ -57,8 +61,8 @@ resource "libvirt_domain" "storage" {
   # https://bugs.launchpad.net/cloud-images/+bug/1573095
   console {
     type        = "pty"
-    target_port = "0"
     target_type = "serial"
+    target_port = "0"
   }
 
   console {
@@ -72,7 +76,10 @@ resource "libvirt_domain" "storage" {
   }
 
   disk {
-    volume_id = element(libvirt_volume.storage.*.id, count.index)
+    volume_id = element(
+      libvirt_volume.storage.*.id,
+      count.index
+    )
   }
 
   graphics {
@@ -88,7 +95,7 @@ resource "libvirt_domain" "storage" {
 #   connection {
 #     host = element(
 #       libvirt_domain.storage.*.network_interface.0.addresses.0,
-#       count.index,
+#       count.index
 #     )
 #     user     = var.username
 #     password = var.password
@@ -97,7 +104,7 @@ resource "libvirt_domain" "storage" {
 
 #   provisioner "remote-exec" {
 #     inline = [
-#       "cloud-init status --wait > /dev/null",
+#       "sudo cloud-init status --wait > /dev/null",
 #     ]
 #   }
 # }
@@ -109,7 +116,7 @@ resource "null_resource" "storage_wait_set_hostname" {
   connection {
     host = element(
       libvirt_domain.storage.*.network_interface.0.addresses.0,
-      count.index,
+      count.index
     )
     user     = var.username
     password = var.password
@@ -132,7 +139,7 @@ resource "null_resource" "storage_wait_set_hostname" {
 #       user = var.username
 #       host = element(
 #         libvirt_domain.storage.*.network_interface.0.addresses.0,
-#         count.index,
+#         count.index
 #       )
 #     }
 

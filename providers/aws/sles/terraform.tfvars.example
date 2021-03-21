@@ -34,11 +34,54 @@ tags = {
 # List of VPC IDs to join via VPC peer link
 # peer_vpc_ids = ["vpc-id1", "vpc-id2"]
 
+# Number of etcd nodes
+# etcds = 3
+etcds = 0
+
+# Size of the etcd nodes
+# EXAMPLE:
+# etcd_instance_type = "t2.medium"
+etcd_instance_type = "t2.medium"
+
+# "Size of the EBS volume, in GB"
+etcd_volume_size = 20
+
+# Name of the IAM profile to associate to control plane nodes.
+# Leave empty to have terraform create one.
+# This is required to have AWS CPI support working properly.
+#
+# Note well: you must  have the right set of permissions.
+# iam_profile_etcd = "caasp-k8s-etcd-vm-profile"
+# iam_profile_etcd = "sles-101_cpi_etcd"
+iam_profile_etcd = "caasp-k8s-worker-vm-profile"
+
+# Number of storage nodes
+# storages = 3
+storages = 0
+
+# Size of the storage nodes
+# EXAMPLE:
+# storage_instance_type = "t2.medium"
+storage_instance_type = "t2.medium"
+
+# "Size of the EBS volume, in GB"
+storage_volume_size = 20
+
+# Name of the IAM profile to associate to storage nodes
+# Leave empty to have terraform create one.
+# This is required to have AWS CPI support working properly.
+#
+# Note well: you must  have the right set of permissions.
+# iam_profile_storage = "caasp-k8s-storage-vm-profile"
+# iam_profile_storage = "sles-101_cpi_storage"
+iam_profile_storage = "caasp-k8s-worker-vm-profile"
+
 # Number of master nodes
 # masters = 1
 masters = 1
 
 # Size of the master nodes
+# https://aws.amazon.com/ec2/instance-types/
 # EXAMPLE:
 # master_instance_type = "t2.medium"
 master_instance_type = "t2.medium"
@@ -87,13 +130,16 @@ worker_volume_size = 20
 # Optional: Define the repositories to use
 # EXAMPLE:
 # repositories = {
-#   repository1 = "http://repo.example.com/repository1/"
-#   repository2 = "http://repo.example.com/repository2/"
+#   repository1 = "http://example.my.repo.com/repository3/"
+#   repository2 = "http://example.my.repo.com/repository4/"
 # }
 repositories = {
+  devel_gcc              = "https://download.opensuse.org/repositories/devel:/gcc/openSUSE_Leap_15.2/"
   devel_languages_go     = "http://download.opensuse.org/repositories/devel:/languages:/go/openSUSE_Leap_15.2/"
+  devel_languages_nodejs = "https://download.opensuse.org/repositories/devel:/languages:/nodejs/openSUSE_Leap_15.2/"
   devel_languages_python = "http://download.opensuse.org/repositories/devel:/languages:/python/openSUSE_Leap_15.2/"
   devel_languages_rust   = "http://download.opensuse.org/repositories/devel:/languages:/rust/openSUSE_Leap_15.2/"
+  virtualization         = "https://download.opensuse.org/repositories/Virtualization/SLE_15_SP2/"
 }
 # lb_repositories = {}
 

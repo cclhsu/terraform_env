@@ -54,7 +54,7 @@ resource "openstack_lb_member_v2" "kube_api_member" {
   pool_id = openstack_lb_pool_v2.kube_api_pool.id
   address = element(
     openstack_compute_instance_v2.master.*.access_ip_v4,
-    count.index,
+    count.index
   )
   subnet_id     = openstack_networking_subnet_v2.subnet.id
   protocol_port = 6443
@@ -65,7 +65,7 @@ resource "openstack_lb_member_v2" "gangway_member" {
   pool_id = openstack_lb_pool_v2.gangway_pool.id
   address = element(
     openstack_compute_instance_v2.master.*.access_ip_v4,
-    count.index,
+    count.index
   )
   subnet_id     = openstack_networking_subnet_v2.subnet.id
   protocol_port = 32001
@@ -76,7 +76,7 @@ resource "openstack_lb_member_v2" "dex_member" {
   pool_id = openstack_lb_pool_v2.dex_pool.id
   address = element(
     openstack_compute_instance_v2.master.*.access_ip_v4,
-    count.index,
+    count.index
   )
   subnet_id     = openstack_networking_subnet_v2.subnet.id
   protocol_port = 32000

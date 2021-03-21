@@ -44,6 +44,7 @@ ${ntp_servers}
 # with SUSEConnect command after packages module is ran
 packages:
   - haproxy
+  - nginx
 
 runcmd:
   # Hostnames from DHCP - otherwise localhost will be used

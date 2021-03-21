@@ -46,8 +46,8 @@ worker_disk_size = 40
 # Optional: Define the repositories to use
 # EXAMPLE:
 # repositories = {
-#   repository1 = "http://repo.example.com/repository1/"
-#   repository2 = "http://repo.example.com/repository2/"
+#   repository1 = "http://example.my.repo.com/repository3/"
+#   repository2 = "http://example.my.repo.com/repository4/"
 # }
 repositories = {}
 

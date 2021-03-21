@@ -30,6 +30,7 @@ ${ntp_servers}
 # the kubernetes packages
 packages:
   - haproxy
+  - nginx
 
 bootcmd:
   - ip link set dev eth0 mtu 1500

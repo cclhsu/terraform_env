@@ -3,8 +3,14 @@ data "template_file" "worker_repositories" {
   template = file("${path.module}/cloud-init/repository.tpl")
 
   vars = {
-    repository_url  = element(values(var.repositories), count.index)
-    repository_name = element(keys(var.repositories), count.index)
+    repository_url = element(
+      values(var.repositories),
+      count.index
+    )
+    repository_name = element(
+      keys(var.repositories),
+      count.index
+    )
   }
 }
 
@@ -32,7 +38,7 @@ data "template_file" "worker_commands" {
   template = file("${path.module}/cloud-init/commands.tpl")
 
   vars = {
-    packages = join(", ", var.packages)
+    packages = join(" ", var.packages)
   }
 }
 
@@ -64,7 +70,7 @@ resource "openstack_compute_volume_attach_v2" "worker_vol_attach" {
   instance_id = element(openstack_compute_instance_v2.worker.*.id, count.index)
   volume_id = element(
     openstack_blockstorage_volume_v2.worker_vol.*.id,
-    count.index,
+    count.index
   )
 }
 
@@ -103,7 +109,7 @@ resource "openstack_compute_floatingip_associate_v2" "worker_ext_ip" {
   count      = var.workers
   floating_ip = element(
     openstack_networking_floatingip_v2.worker_ext.*.address,
-    count.index,
+    count.index
   )
   instance_id = element(openstack_compute_instance_v2.worker.*.id, count.index)
 }
@@ -118,7 +124,7 @@ resource "null_resource" "worker_wait_cloudinit" {
   connection {
     host = element(
       openstack_compute_floatingip_associate_v2.worker_ext_ip.*.floating_ip,
-      count.index,
+      count.index
     )
     user = var.username
     type = "ssh"
@@ -126,7 +132,7 @@ resource "null_resource" "worker_wait_cloudinit" {
 
   provisioner "remote-exec" {
     inline = [
-      "cloud-init status --wait > /dev/null",
+      "sudo cloud-init status --wait > /dev/null",
     ]
   }
 }
@@ -140,7 +146,7 @@ resource "null_resource" "worker_reboot" {
       user = var.username
       host = element(
         openstack_compute_floatingip_associate_v2.worker_ext_ip.*.floating_ip,
-        count.index,
+        count.index
       )
     }
 

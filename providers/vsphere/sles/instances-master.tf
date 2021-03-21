@@ -3,8 +3,14 @@ data "template_file" "master_repositories" {
   template = file("${path.module}/cloud-init/repository.tpl")
 
   vars = {
-    repository_url  = element(values(var.repositories), count.index)
-    repository_name = element(keys(var.repositories), count.index)
+    repository_url = element(
+      values(var.repositories),
+      count.index
+    )
+    repository_name = element(
+      keys(var.repositories),
+      count.index
+    )
   }
 }
 
@@ -32,7 +38,7 @@ data "template_file" "master_commands" {
   template = file("${path.module}/cloud-init/commands.tpl")
 
   vars = {
-    packages = join(", ", var.packages)
+    packages = join(" ", var.packages)
   }
 }
 
@@ -104,7 +110,7 @@ resource "null_resource" "master_wait_cloudinit" {
   connection {
     host = element(
       vsphere_virtual_machine.master.*.guest_ip_addresses.0,
-      count.index,
+      count.index
     )
     user  = var.username
     type  = "ssh"
@@ -113,7 +119,7 @@ resource "null_resource" "master_wait_cloudinit" {
 
   provisioner "remote-exec" {
     inline = [
-      "cloud-init status --wait > /dev/null",
+      "sudo cloud-init status --wait > /dev/null",
     ]
   }
 }

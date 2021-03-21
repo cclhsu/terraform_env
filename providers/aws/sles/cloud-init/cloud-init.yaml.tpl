@@ -20,13 +20,13 @@ locale: en_US.UTF-8
 # set timezone
 timezone: Etc/UTC
 
-users:
-  - name: ${username}
-    ssh-authorized-keys:
-      ${authorized_keys}
-    sudo: ['ALL=(ALL) NOPASSWD:ALL']
-    groups: sudo
-    shell: /bin/bash
+# users:
+#   - name: $${username}
+#     ssh-authorized-keys:
+#       $${authorized_keys}
+#     sudo: ['ALL=(ALL) NOPASSWD:ALL']
+#     groups: sudo
+#     shell: /bin/bash
 
 # # set root password
 # ssh_pwauth: True
@@ -69,7 +69,8 @@ ${authorized_keys}
 # WARNING!!! Do not use cloud-init packages module when SUSE CaaSP Registration
 # Code is provided. In this case, repositories will be added in runcmd module
 # with SUSEConnect command after packages module is ran
-#packages:
+# packages:
+# $${packages}
 
 bootcmd:
   - ip link set dev eth0 mtu 1500

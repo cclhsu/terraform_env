@@ -1,8 +1,14 @@
 # URL of the libvirt server
 # EXAMPLE:
+# libvirt_uri = "test:///default"
 # libvirt_uri = "qemu:///system"
 # libvirt_uri = "qemu:///session"
+# libvirt_uri = "qemu:///session?socket=${HOME}/.cache/libvirt/libvirt-sock"
 # libvirt_uri = "qemu+ssh://root@192.168.100.10/system"
+# libvirt_uri = "qemu+ssh://root@192.168.100.10/session"
+# libvirt_uri = "qemu+ssh://${SSH_USER}@${FQDN}/system?socket=/var/run/libvirt/libvirt-sock"
+# libvirt_uri = "qemu+ssh://${SSH_USER}@${FQDN}/session?socket=${HOME}/.cache/libvirt/libvirt-sock"
+libvirt_uri = "qemu:///system"
 
 # Path of the key file used to connect to the libvirt server
 # Note this value will be appended to the libvirt_uri as a 'keyfile' query: <libvirt_uri>?keyfile=<libvirt_keyfile>
@@ -15,48 +21,54 @@ libvirt_keyfile = ""
 
 # URL of the image to use
 # EXAMPLE:
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/alpine/alpine-standard-3.12.3-x86_64.qcow2"
 # lb_image_uri = "CentOS-7-x86_64-GenericCloud.qcow2"
 # lb_image_uri = "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2"
-# lb_image_uri = "/home/cclhsu/Documents/myImages/kvm/centos/CentOS-7-x86_64-GenericCloud.qcow2"
-# lb_image_uri = "/Users/clark_hsu/Documents/myImages/kvm/centos/CentOS-7-x86_64-GenericCloud.qcow2"
-# lb_image_uri = "/home/cclhsu/Documents/myImages/kvm/debian/debian-10.5.0-openstack-amd64.qcow2"
-# lb_image_uri = "/home/cclhsu/Documents/myImages/kvm/opensuse/openSUSE-Leap-15.2-OpenStack.x86_64.qcow2"
-# lb_image_uri = "/home/cclhsu/Documents/myImages/kvm/ubuntu/ubuntu-18.04-server-cloudimg-amd64.img"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/centos/CentOS-7-x86_64-GenericCloud.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/coreos/fedora-coreos-33.20210217.3.0-qemu.x86_64.qcow2.xz"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/debian/debian-10.5.0-openstack-amd64.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/fedora/Fedora-Cloud-Base-32-1.6.x86_64.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/opensuse-leap/openSUSE-Leap-15.2-OpenStack.x86_64.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/opensuse-tumbleweed/openSUSE-Tumbleweed-JeOS.x86_64-OpenStack-Cloud.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/rancher-k3os/k3os-amd64.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/rancher-os/rancheros.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/raspios/2020-12-11-raspios-buster-i386.qcow2"
+lb_image_uri = "${HOME}/Documents/myImages/kvm/sles/SLES15-SP2-JeOS.x86_64-15.2-OpenStack-Cloud-GM.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/ubuntu/ubuntu-18.04-server-cloudimg-amd64.img"
 
 # URL of the image to use
 # EXAMPLE:
 # image_uri = "SLES15-SP2-JeOS.x86_64-15.2-OpenStack-Cloud-GM.qcow2"
-# image_uri = "SLES15-SP2-JeOS.x86_64-15.2-OpenStack-Cloud-QU1.qcow2"
-# image_uri = "http://download.suse.de/ibs/SUSE:/SLE-15-SP2:/GA/images/SLES15-SP2-JeOS.x86_64-15.2-OpenStack-Cloud${BUILD_NUMBER}.qcow2"
-# image_uri = "http://download.suse.de/ibs/SUSE:/SLE-15-SP2:/Update:/QR/images/SLES15-SP2-JeOS.x86_64-15.2-OpenStack-Cloud-${BUILD_NUMBER}.qcow2"
-# image_uri = "/home/cclhsu/Documents/myImages/kvm/sles/SLES15-SP2-CHOST-BYOS.x86_64-1.0.5-OpenStack-Build1.9.qcow2"
-image_uri = "/home/cclhsu/Documents/myImages/kvm/sles/SLES15-SP2-JeOS.x86_64-15.2-OpenStack-Cloud-Build15.33.qcow2"
+# image_uri = "https://download.suse.de/install/SLE-15-SP2-JeOS-GM/SLES15-SP2-JeOS.x86_64-15.2-OpenStack-Cloud-GM.qcow2"
+image_uri = "${HOME}/Documents/myImages/kvm/sles/SLES15-SP2-JeOS.x86_64-15.2-OpenStack-Cloud-GM.qcow2"
 
 # Identifier to make all your resources unique and avoid clashes with other users of this terraform project
 # stack_name = "my-sles-cluster"
 stack_name = "sles"
 
 # CIDR of the network
-network_cidr = "10.17.0.0/18"
+network_cidr = "10.17.0.0/22"
 
 # Enable creation of LB node
 create_lb = true
 
 # Number of etcd nodes
-etcds = 0
+etcds       = 0
 etcd_memory = 5120
 
 # Number of storage nodes
-storages = 0
+storages       = 0
 storage_memory = 5120
 
 # Number of master nodes
 masters       = 1
 master_memory = 5120
+master_vcpu   = 2
 
 # Number of worker nodes
-workers       = 1
+workers       = 3
 worker_memory = 5120
+worker_vcpu   = 4
 
 # Name of DNS domain
 dns_domain = "sles.local"
@@ -76,12 +88,19 @@ password = "linux"
 #   repository2 = "http://example.my.repo.com/repository2/"
 # }
 lb_repositories = {
-  sle_server_pool    = "http://download.suse.de/ibs/SUSE/Products/SLE-Product-SLES/15-SP2/x86_64/product/"
-  basesystem_pool    = "http://download.suse.de/ibs/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product/"
-  ha_pool            = "http://download.suse.de/ibs/SUSE/Products/SLE-Product-HA/15-SP2/x86_64/product/"
-  ha_updates         = "http://download.suse.de/ibs/SUSE/Updates/SLE-Product-HA/15-SP2/x86_64/update/"
-  sle_server_updates = "http://download.suse.de/ibs/SUSE/Updates/SLE-Product-SLES/15-SP2/x86_64/update/"
-  basesystem_updates = "http://download.suse.de/ibs/SUSE/Updates/SLE-Module-Basesystem/15-SP2/x86_64/update/"
+  sle_server_pool        = "http://download.suse.de/ibs/SUSE/Products/SLE-Product-SLES/15-SP2/x86_64/product/"
+  basesystem_pool        = "http://download.suse.de/ibs/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product/"
+  ha_pool                = "http://download.suse.de/ibs/SUSE/Products/SLE-Product-HA/15-SP2/x86_64/product/"
+  ha_updates             = "http://download.suse.de/ibs/SUSE/Updates/SLE-Product-HA/15-SP2/x86_64/update/"
+  sle_server_updates     = "http://download.suse.de/ibs/SUSE/Updates/SLE-Product-SLES/15-SP2/x86_64/update/"
+  basesystem_updates     = "http://download.suse.de/ibs/SUSE/Updates/SLE-Module-Basesystem/15-SP2/x86_64/update/"
+  suse_ca                = "http://download.suse.de/ibs/SUSE:/CA/SLE_15_SP2"
+  devel_gcc              = "https://download.opensuse.org/repositories/devel:/gcc/openSUSE_Leap_15.2/"
+  devel_languages_go     = "http://download.opensuse.org/repositories/devel:/languages:/go/openSUSE_Leap_15.2/"
+  devel_languages_nodejs = "https://download.opensuse.org/repositories/devel:/languages:/nodejs/openSUSE_Leap_15.2/"
+  devel_languages_python = "http://download.opensuse.org/repositories/devel:/languages:/python/openSUSE_Leap_15.2/"
+  devel_languages_rust   = "http://download.opensuse.org/repositories/devel:/languages:/rust/openSUSE_Leap_15.2/"
+  virtualization         = "https://download.opensuse.org/repositories/Virtualization/SLE_15_SP2/"
 }
 
 # Optional: Define the repositories to use
@@ -100,7 +119,7 @@ lb_repositories = {
 #   sle15sp2_debuginfo_pool = "http://download.suse.de/ibs/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product_debug/"
 # }
 repositories = {
-  caasp_devel             = "http://download.suse.de/ibs/Devel:/CaaSP:/4.0/SLE_15_SP2/"
+  caasp_devel             = "http://download.suse.de/ibs/Devel:/CaaSP:/4.5/SLE_15_SP2/"
   suse_ca                 = "http://download.suse.de/ibs/SUSE:/CA/SLE_15_SP2/"
   sle_server_pool         = "http://download.suse.de/ibs/SUSE/Products/SLE-Product-SLES/15-SP2/x86_64/product/"
   basesystem_pool         = "http://download.suse.de/ibs/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product/"
@@ -114,6 +133,12 @@ repositories = {
   sle15sp2_update         = "http://download.suse.de/ibs/SUSE:/SLE-15-SP2:/Update/standard/"
   sle15_debuginfo_pool    = "http://download.suse.de/ibs/SUSE/Products/SLE-Module-Basesystem/15/x86_64/product_debug/"
   sle15sp2_debuginfo_pool = "http://download.suse.de/ibs/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product_debug/"
+  devel_gcc               = "https://download.opensuse.org/repositories/devel:/gcc/openSUSE_Leap_15.2/"
+  devel_languages_go      = "http://download.opensuse.org/repositories/devel:/languages:/go/openSUSE_Leap_15.2/"
+  devel_languages_nodejs  = "https://download.opensuse.org/repositories/devel:/languages:/nodejs/openSUSE_Leap_15.2/"
+  devel_languages_python  = "http://download.opensuse.org/repositories/devel:/languages:/python/openSUSE_Leap_15.2/"
+  devel_languages_rust    = "http://download.opensuse.org/repositories/devel:/languages:/rust/openSUSE_Leap_15.2/"
+  virtualization          = "https://download.opensuse.org/repositories/Virtualization/SLE_15_SP2/"
 }
 
 # Minimum required packages. Do not remove them.
@@ -124,12 +149,14 @@ packages = [
   "-kernel-default-base",
   "ca-certificates-suse",
   "python3",
-  "python3-apt",
-  "python-apt",
+  "curl",
+  "wget",
+  "rsync",
+  "jq",
+  "which",
   "openssl",
-  "gdb",
-  "systemd-coredump",
-  "lz4"
+  "open-iscsi",
+  "nfs-kernel-server"
 ]
 
 # ssh keys to inject into all the nodes
@@ -141,7 +168,7 @@ authorized_keys = [
   ""
 ]
 
-# ssh key on openstack to launch the nodes with
+# ssh key to launch the nodes with
 # EXAMPLE:
 # key_pair = "my_keypair"
 

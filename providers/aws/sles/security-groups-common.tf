@@ -26,7 +26,7 @@ resource "aws_security_group" "common" {
     to_port         = -1
     protocol        = "icmp"
     security_groups = []
-    cidr_blocks     = [var.vpc_cidr_block]
+    cidr_blocks     = [var.cidr_block]
     description     = "allow ICPM traffic egress"
   }
 
@@ -44,7 +44,7 @@ resource "aws_security_group" "common" {
     from_port   = 4240
     to_port     = 4240
     protocol    = "tcp"
-    cidr_blocks = [var.vpc_cidr_block]
+    cidr_blocks = [var.cidr_block]
     description = "cilium - health check - internal"
   }
 
@@ -53,7 +53,7 @@ resource "aws_security_group" "common" {
     from_port   = 8472
     to_port     = 8472
     protocol    = "udp"
-    cidr_blocks = [var.vpc_cidr_block]
+    cidr_blocks = [var.cidr_block]
     description = "cilium - VXLAN traffic - internal"
   }
 
@@ -62,7 +62,7 @@ resource "aws_security_group" "common" {
     from_port   = 10250
     to_port     = 10250
     protocol    = "tcp"
-    cidr_blocks = [var.vpc_cidr_block]
+    cidr_blocks = [var.cidr_block]
     description = "master to worker kubelet communication - internal"
   }
 
@@ -71,7 +71,7 @@ resource "aws_security_group" "common" {
     from_port   = 10256
     to_port     = 10256
     protocol    = "tcp"
-    cidr_blocks = [var.vpc_cidr_block]
+    cidr_blocks = [var.cidr_block]
     description = "kubeproxy health check - internal only"
   }
 

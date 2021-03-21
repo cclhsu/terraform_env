@@ -13,14 +13,16 @@ resource "azurerm_subnet" "bastionhost" {
   name                 = "AzureBastionSubnet"
   resource_group_name  = azurerm_resource_group.resource_group.name
   virtual_network_name = azurerm_virtual_network.virtual_network.name
-  address_prefixes     = [var.bastionhost_subnet_cidr]
+  # address_prefixes     = [var.bastionhost_subnet_cidr]
+  address_prefix = var.bastionhost_subnet_cidr
 }
 
 resource "azurerm_subnet" "nodes" {
   name                 = "${var.stack_name}-nodes"
   resource_group_name  = azurerm_resource_group.resource_group.name
   virtual_network_name = azurerm_virtual_network.virtual_network.name
-  address_prefixes     = [var.private_subnet_cidr]
+  # address_prefixes     = [var.private_subnet_cidr]
+  address_prefix = var.private_subnet_cidr
 }
 
 # Public IPs
@@ -70,6 +72,7 @@ resource "azurerm_public_ip" "master" {
   sku                 = "Standard"
 }
 
+# Should remove for production for security reason
 resource "azurerm_public_ip" "worker" {
   count               = var.create_bastionhost ? 0 : var.workers
   name                = "${var.stack_name}-worker-${count.index}-ip"
@@ -92,4 +95,23 @@ resource "azurerm_private_dns_zone_virtual_network_link" "internal_dns" {
   private_dns_zone_name = azurerm_private_dns_zone.dns_zone.name
   virtual_network_id    = azurerm_virtual_network.virtual_network.id
   registration_enabled  = true
+}
+
+# Route Table
+resource "azurerm_route_table" "nodes" {
+  count               = var.cpi_enable ? 1 : 0
+  name                = "${var.stack_name}-route-table"
+  location            = azurerm_resource_group.resource_group.location
+  resource_group_name = azurerm_resource_group.resource_group.name
+}
+
+resource "azurerm_subnet_route_table_association" "nodes" {
+  count          = var.cpi_enable ? 1 : 0
+  subnet_id      = azurerm_subnet.nodes.id
+  route_table_id = azurerm_route_table.nodes[0].id
+
+  depends_on = [
+    azurerm_subnet.nodes,
+    azurerm_route_table.nodes
+  ]
 }

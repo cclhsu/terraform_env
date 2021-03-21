@@ -52,23 +52,23 @@ ${ntp_servers}
 # manage_resolv_conf: true
 # resolv_conf:
 #   nameservers:
-# ${dns_nameservers}
+# $${dns_nameservers}
 
-# # need to disable gpg checks because the cloud image has an untrusted repo
-# zypper:
-#   repos:
-# $${repositories}
-#   config:
-#     gpgcheck: "off"
-#     solver.onlyRequires: "true"
-#     download.use_deltarpm: "true"
+# need to disable gpg checks because the cloud image has an untrusted repo
+zypper:
+  repos:
+${repositories}
+  config:
+    gpgcheck: "off"
+    solver.onlyRequires: "true"
+    download.use_deltarpm: "true"
 
 # WARNING!!! Do not use cloud-init packages module when SUSE CaaSP Registration
 # Code is provided. In this case, repositories will be added in runcmd module
 # with SUSEConnect command after packages module is ran
-packages:
-  - haproxy
-${packages}
+# packages:
+#   - haproxy
+# $${packages}
 
 # set hostname
 hostname: ${hostname}
@@ -81,6 +81,8 @@ runcmd:
   - netconfig -f update
   - sed -i -e '/^DHCLIENT_SET_HOSTNAME/s/^.*$/DHCLIENT_SET_HOSTNAME=\"${hostname_from_dhcp}\"/' /etc/sysconfig/network/dhcp
   - systemctl restart wicked
+  - sed -i 's/#GSSAPIAuthentication no/GSSAPIAuthentication no/g' /etc/ssh/sshd_config
+  - sed -i 's/#UseDNS yes/UseDNS no/g' /etc/ssh/sshd_config
 ${register_scc}
 ${register_rmt}
 ${commands}

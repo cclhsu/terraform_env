@@ -20,7 +20,7 @@ resource "openstack_dns_recordset_v2" "master" {
   type        = "A"
   records = [element(
     openstack_networking_floatingip_v2.master_ext.*.address,
-    count.index,
+    count.index
   )]
   depends_on = [
     openstack_compute_instance_v2.master,

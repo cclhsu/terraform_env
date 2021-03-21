@@ -44,7 +44,7 @@ ${ntp_servers}
 # manage_resolv_conf: true
 # resolv_conf:
 #   nameservers:
-# ${dns_nameservers}
+# $${dns_nameservers}
 
 # # need to disable gpg checks because the cloud image has an untrusted repo
 # zypper:
@@ -80,7 +80,7 @@ runcmd:
   - /usr/lib/systemd/systemd-sysctl --prefix kernel.core_pattern
   - echo 'kernel.core_pattern=|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %e' >> /etc/sysctl.d/50-coredump.conf
   - /usr/lib/systemd/systemd-sysctl /etc/sysctl.d/50-coredump.conf
-  - /sbin/rcapparmor stop
+  - /sbin/rcapparmor stop || true
   - echo 'kernel.suid_dumpable = 2' >> /etc/sysctl.d/suid_dumpable.conf
   - /usr/lib/systemd/systemd-sysctl /etc/sysctl.d/suid_dumpable.conf
   - /sbin/swapoff -a

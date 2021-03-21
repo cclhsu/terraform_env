@@ -36,8 +36,14 @@ data "template_file" "lb_repositories_template" {
   template = file("${path.module}/cloud-init/repository.tpl")
 
   vars = {
-    repository_url  = element(values(var.lb_repositories), count.index)
-    repository_name = element(keys(var.lb_repositories), count.index)
+    repository_url = element(
+      values(var.lb_repositories),
+      count.index
+    )
+    repository_name = element(
+      keys(var.lb_repositories),
+      count.index
+    )
   }
 }
 
@@ -49,7 +55,7 @@ data "template_file" "haproxy_apiserver_backends_master" {
     fqdn = element(vsphere_virtual_machine.master.*.name, count.index)
     ip = element(
       vsphere_virtual_machine.master.*.default_ip_address,
-      count.index,
+      count.index
     )
   }
 
@@ -64,7 +70,7 @@ data "template_file" "haproxy_gangway_backends_master" {
     fqdn = element(vsphere_virtual_machine.master.*.name, count.index)
     ip = element(
       vsphere_virtual_machine.master.*.default_ip_address,
-      count.index,
+      count.index
     )
   }
 
@@ -79,7 +85,7 @@ data "template_file" "haproxy_dex_backends_master" {
     fqdn = element(vsphere_virtual_machine.master.*.name, count.index)
     ip = element(
       vsphere_virtual_machine.master.*.default_ip_address,
-      count.index,
+      count.index
     )
   }
 
@@ -173,7 +179,7 @@ resource "null_resource" "lb_wait_cloudinit" {
   connection {
     host = element(
       vsphere_virtual_machine.lb.*.guest_ip_addresses.0,
-      count.index,
+      count.index
     )
     user  = var.username
     type  = "ssh"
@@ -182,7 +188,7 @@ resource "null_resource" "lb_wait_cloudinit" {
 
   provisioner "remote-exec" {
     inline = [
-      "cloud-init status --wait > /dev/null",
+      "sudo cloud-init status --wait > /dev/null",
     ]
   }
 }
@@ -198,7 +204,7 @@ resource "null_resource" "lb_push_haproxy_cfg" {
   connection {
     host = element(
       vsphere_virtual_machine.lb.*.guest_ip_addresses.0,
-      count.index,
+      count.index
     )
     user  = var.username
     type  = "ssh"

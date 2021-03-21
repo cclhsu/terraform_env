@@ -1,4 +1,4 @@
-zypper -n install ${packages}
+zypper --non-interactive install ${packages}
 ulimit -c unlimited
 install -m 1777 -d /var/lib/systemd/coredump
 echo '|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %e' > /proc/sys/kernel/core_pattern

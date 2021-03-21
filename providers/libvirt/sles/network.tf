@@ -8,5 +8,9 @@ resource "libvirt_network" "network" {
     enabled = true
   }
 
+  # dhcp {
+  #   enabled = true
+  # }
+
   addresses = [var.network_cidr]
 }
