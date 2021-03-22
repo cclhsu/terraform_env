@@ -320,7 +320,7 @@ function set_packages_by_distribution() {
         GITHUB_PROJECT=${PROJECT_BIN}       #
         # https://github.com/${GITHUB_USER}/${GITHUB_PROJECT}/releases
         # PACKAGE_VERSION=$(curl -s "https://api.github.com/repos/${GITHUB_USER}/${GITHUB_PROJECT}/releases/latest" | jq --raw-output .tag_name)
-        PACKAGE_VERSION=0.12.30 # 0.12.30 | 0.13.6 | 0.14.8 | 0.15.0-beta2
+        PACKAGE_VERSION=0.14.8 # 0.12.30 | 0.13.6 | 0.14.8 | 0.15.0-beta2
         echo ">>> Package: ${DISTRO}/${GITHUB_USER}/${GITHUB_PROJECT}/${PACKAGE_VERSION}/${PROJECT_BIN}-${OS}-${ARCH}"
 
         case ${DISTRO} in
@@ -817,7 +817,7 @@ function ssh_command() {
         # local COMMANDS='command -v {apk,dpkg,pkgbuild,rpm} 2>/dev/null;'
         # local COMMANDS='command -v {curl,wget} 2>/dev/null;'
         # local COMMANDS='command -v {tar,unzip} 2>/dev/null;'
-        # local COMMANDS='OS=$(uname -s | tr A-Z a-z);ARCH=$(uname -m | sed s/x86_64/amd64/);DISTRO=$(cat /etc/*-release | uniq -u | grep ^ID= | cut -d = -f 2 | sed s/\"//g);PACKAGE_MANAGER=$(basename $(command -v {apk,apt-get,brew,dnf,emerge,pacman,yum,zypper,xbps-install} 2>/dev/null));PACKAGE_SYSTEM=$(basename $(command -v {apk,dpkg,pkgbuild,rpm} 2>/dev/null));echo "${OS} ${ARCH} ${DISTRO} ${PACKAGE_MANAGER} ${PACKAGE_SYSTEM}"'
+        # local COMMANDS='OS=$(uname -s | tr A-Z a-z);ARCH=$(uname -m | sed -e s/x86_64/amd64/ -e s/aarch64/arm64/);DISTRO=$(cat /etc/*-release | uniq -u | grep ^ID= | cut -d = -f 2 | sed s/\"//g);PACKAGE_MANAGER=$(basename $(command -v {apk,apt-get,brew,dnf,emerge,pacman,yum,zypper,xbps-install} 2>/dev/null));PACKAGE_SYSTEM=$(basename $(command -v {apk,dpkg,pkgbuild,rpm} 2>/dev/null));echo "${OS} ${ARCH} ${DISTRO} ${PACKAGE_MANAGER} ${PACKAGE_SYSTEM}"'
         local COMMANDS='. /etc/os-release && echo "${ID} ${VERSION_ID} ${VERSION}"'
         for IP in ${IPS[*]}; do
             # echo -e "\n>>> ${IP}...\n"
