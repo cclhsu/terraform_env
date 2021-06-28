@@ -40,13 +40,13 @@ echo -e "\n=====================================================================
 echo -e "\n>>> Load Configuration...\n"
 TOP_DIR=$(cd "$(dirname "${0}")" && pwd)
 # shellcheck source=/dev/null
-source "${HOME}/.mysecrets"
+source "${HOME}/.my_libs/bash/mysecrets"
 # shellcheck source=/dev/null
-source "${HOME}/.myconfigs"
+source "${HOME}/.my_libs/bash/myconfigs"
 # shellcheck source=/dev/null
-source "${HOME}/.mylib"
+source "${HOME}/.my_libs/bash/mylib"
 # shellcheck source=/dev/null
-source "${HOME}/.myprojects"
+source "${HOME}/.my_libs/bash/myprojects"
 # TOP_DIR=${CLOUD_MOUNT_PATH}
 # TOP_DIR=${CLOUD_REPLICA_PATH}
 # TOP_DIR=${DOCUMENTS_PATH}
@@ -188,8 +188,9 @@ fi
 # function function_01() {
 #     if [ "$#" != "1" ]; then
 #         log_e "Usage: ${FUNCNAME[0]} <ARGS>"
+#         log_e "${FUNCNAME[0]} $# ${*}"
 #     else
-#         log_m "${FUNCNAME[0]} ${*}"
+#         log_m "${FUNCNAME[0]} $# ${*}"
 #         # cd "${TOP_DIR:?}" || exit 1
 #     fi
 # }
@@ -197,8 +198,9 @@ fi
 function start_runtime() {
     if [ "$#" != "0" ]; then
         log_e "Usage: ${FUNCNAME[0]} <ARGS>"
+        log_e "${FUNCNAME[0]} $# ${*}"
     else
-        # log_m "${FUNCNAME[0]} ${*}"
+        # log_m "${FUNCNAME[0]} $# ${*}"
         # cd "${TOP_DIR:?}" || exit 1
 
         if [ ! -e "/var/run/libvirt/libvirt-sock" ]; then
@@ -213,8 +215,9 @@ function start_runtime() {
 function stop_runtime() {
     if [ "$#" != "0" ]; then
         log_e "Usage: ${FUNCNAME[0]} <ARGS>"
+        log_e "${FUNCNAME[0]} $# ${*}"
     else
-        # log_m "${FUNCNAME[0]} ${*}"
+        # log_m "${FUNCNAME[0]} $# ${*}"
         # cd "${TOP_DIR:?}" || exit 1
 
         if [ -e "/var/run/libvirt/libvirt-sock" ]; then
@@ -236,8 +239,9 @@ function stop_runtime() {
 function deploy_infrastructure() {
     if [ "$#" != "3" ]; then
         log_e "Usage: ${FUNCNAME[0]} <DEPLOYMENT_PLATFORM_DISTRO_TOP_DIR> <PLATFORM> <PLATFORM_DISTRO>"
+        log_e "${FUNCNAME[0]} $# ${*}"
     else
-        log_m "${FUNCNAME[0]} ${*}"
+        log_m "${FUNCNAME[0]} $# ${*}"
         cd "${DEPLOYMENT_PLATFORM_DISTRO_TOP_DIR}" || exit 1
 
         echo -e "\n>>> Deploy Nodes...\n"
@@ -261,8 +265,9 @@ function deploy_infrastructure() {
 function undeploy_infrastructure() {
     if [ "$#" != "3" ]; then
         log_e "Usage: ${FUNCNAME[0]} <DEPLOYMENT_PLATFORM_DISTRO_TOP_DIR> <PLATFORM> <PLATFORM_DISTRO>"
+        log_e "${FUNCNAME[0]} $# ${*}"
     else
-        log_m "${FUNCNAME[0]} ${*}"
+        log_m "${FUNCNAME[0]} $# ${*}"
         cd "${DEPLOYMENT_PLATFORM_DISTRO_TOP_DIR}" || exit 1
 
         echo -e "\n>>> Undeploy Nodes...\n"
@@ -280,8 +285,9 @@ function undeploy_infrastructure() {
 function install_infrastructure_requirements() {
     if [ "$#" != "0" ]; then
         log_e "Usage: ${FUNCNAME[0]} <DEPLOYMENT_PLATFORM_DISTRO_TOP_DIR> <SSH_USER> <IPS> <CONFIGURATION_MANAGEMENT_TOP_DIR> <REMOTE_CONFIGURATION_MANAGEMENT_TOP_DIR> <ROLE> <RUNTIME> <SCRIPT> <ARGS>"
+        log_e "${FUNCNAME[0]} $# ${*}"
     else
-        log_m "${FUNCNAME[0]} ${*}"
+        log_m "${FUNCNAME[0]} $# ${*}"
         cd "${DEPLOYMENT_PLATFORM_DISTRO_TOP_DIR}" || exit 1
 
     fi
@@ -290,8 +296,9 @@ function install_infrastructure_requirements() {
 function uninstall_infrastructure_requirements() {
     if [ "$#" != "0" ]; then
         log_e "Usage: ${FUNCNAME[0]} <DEPLOYMENT_PLATFORM_DISTRO_TOP_DIR> <SSH_USER> <IPS> <CONFIGURATION_MANAGEMENT_TOP_DIR> <REMOTE_CONFIGURATION_MANAGEMENT_TOP_DIR> <ROLE> <RUNTIME> <SCRIPT> <ARGS>"
+        log_e "${FUNCNAME[0]} $# ${*}"
     else
-        log_m "${FUNCNAME[0]} ${*}"
+        log_m "${FUNCNAME[0]} $# ${*}"
         cd "${DEPLOYMENT_PLATFORM_DISTRO_TOP_DIR}" || exit 1
 
     fi
@@ -300,8 +307,9 @@ function uninstall_infrastructure_requirements() {
 function set_packages_by_distribution() {
     if [ "$#" != "0" ]; then
         log_e "Usage: ${FUNCNAME[0]} <ARGS>"
+        log_e "${FUNCNAME[0]} $# ${*}"
     else
-        log_m "${FUNCNAME[0]} ${*}"
+        log_m "${FUNCNAME[0]} $# ${*}"
         # cd "${TOP_DIR:?}" || exit 1
 
         if [ "${SRC_DIR}" == "" ]; then
@@ -310,17 +318,18 @@ function set_packages_by_distribution() {
             # SRC_DIR=${HOME}/Documents/myProject/Template/helloworld_template
         fi
 
-        INSTALL_METHOD=zip # bin tar bz2 xz rar zip script snap rpm go npm pip docker podman
+        INSTALL_METHOD=zip # bin tar bz2 xz zstd rar zip script snap rpm go npm pip docker podman
         # https://github.com/${GITHUB_USER}/${GITHUB_PROJECT}/releases
         # https://repology.org/projects/?search=${GITHUB_PROJECT}
         PROJECT_BIN=terraform               #
         PROJECT_BIN_RUN_PARAMETERS=         #
         SYSTEMD_SERVICE_NAME=${PROJECT_BIN} #
         GITHUB_USER=hashicorp               #
+        GITHUB_FORK_USER=                   #
         GITHUB_PROJECT=${PROJECT_BIN}       #
         # https://github.com/${GITHUB_USER}/${GITHUB_PROJECT}/releases
         # PACKAGE_VERSION=$(curl -s "https://api.github.com/repos/${GITHUB_USER}/${GITHUB_PROJECT}/releases/latest" | jq --raw-output .tag_name)
-        PACKAGE_VERSION=0.14.8 # 0.12.30 | 0.13.6 | 0.14.8 | 0.15.0-beta2
+        PACKAGE_VERSION=1.0.0 # 0.12.31 | 0.13.7 | 0.14.11 | 0.15.5 | 1.0.0
         echo ">>> Package: ${DISTRO}/${GITHUB_USER}/${GITHUB_PROJECT}/${PACKAGE_VERSION}/${PROJECT_BIN}-${OS}-${ARCH}"
 
         case ${DISTRO} in
@@ -339,7 +348,7 @@ function set_packages_by_distribution() {
                 PLUGIN_PACKAGES_REPO_URL=
                 PLUGIN_PACKAGES=
                 ;;
-            centos | fedora | rhel)
+            centos | fedora | rhel | oracle-linux)
                 # https://pkgs.org/
                 # https://rpmfind.net/linux/RPM/index.html
                 PACKAGES_KEY_URL=
@@ -389,11 +398,11 @@ function set_packages_by_distribution() {
                 # https://software.opensuse.org/find
                 PACKAGES_KEY_URL=
                 PACKAGES_REPO_NAME="systemsmanagement_terraform"
-                PACKAGES_REPO_URL="https://download.opensuse.org/repositories/systemsmanagement:terraform/openSUSE_Leap_15.2/systemsmanagement:terraform.repo"
+                PACKAGES_REPO_URL="https://download.opensuse.org/repositories/systemsmanagement:terraform/openSUSE_Leap_15.3/systemsmanagement:terraform.repo"
                 PACKAGES="${PROJECT_BIN}=${PACKAGE_VERSION}" # ${PROJECT_BIN} | ${PROJECT_BIN}=${PACKAGE_VERSION}
                 REQUIRED_PACKAGES_KEY_URL=
                 REQUIRED_PACKAGES_REPO_NAME= # "systemsmanagement_terraform"
-                REQUIRED_PACKAGES_REPO_URL=  # "https://download.opensuse.org/repositories/systemsmanagement:terraform/openSUSE_Leap_15.2/systemsmanagement:terraform.repo"
+                REQUIRED_PACKAGES_REPO_URL=  # "https://download.opensuse.org/repositories/systemsmanagement:terraform/openSUSE_Leap_15.3/systemsmanagement:terraform.repo"
                 REQUIRED_PACKAGES=           # "terraform-provider-aws terraform-provider-azurerm terraform-provider-gcp terraform-provider-libvirt terraform-provider-local terraform-provider-null terraform-provider-openstack terraform-provider-susepubliccloud terraform-provider-template terraform-provider-vsphere"
                 PLUGIN_PACKAGES_KEY_URL=
                 if [ "${INSTALL_METHOD}" != "rpm" ] && [ "${PLATFORM}" == "libvirt" ]; then
@@ -402,7 +411,7 @@ function set_packages_by_distribution() {
                     PLUGIN_PACKAGES=
                 else
                     PLUGIN_PACKAGES_REPO_NAME="systemsmanagement_terraform"
-                    PLUGIN_PACKAGES_REPO_URL="https://download.opensuse.org/repositories/systemsmanagement:terraform/openSUSE_Leap_15.2/systemsmanagement:terraform.repo"
+                    PLUGIN_PACKAGES_REPO_URL="https://download.opensuse.org/repositories/systemsmanagement:terraform/openSUSE_Leap_15.3/systemsmanagement:terraform.repo"
                     case ${PLATFORM} in
                         aws)
                             PLUGIN_PACKAGES="terraform-provider-aws terraform-provider-local terraform-provider-null terraform-provider-susepubliccloud terraform-provider-template"
@@ -465,6 +474,7 @@ function set_packages_by_distribution() {
         PROJECT_TAR_URL=                                                                                                                       # "https://github.com/${GITHUB_USER}/${GITHUB_PROJECT}/releases/download/${PACKAGE_VERSION}/${PROJECT_BIN}-${PACKAGE_VERSION}-${OS}-${ARCH}.tar.gz"
         PROJECT_BZ2_URL=                                                                                                                       # "https://github.com/${GITHUB_USER}/${GITHUB_PROJECT}/releases/download/${PACKAGE_VERSION}/${PROJECT_BIN}-${PACKAGE_VERSION}-${OS}-${ARCH}.bz2"
         PROJECT_XZ_URL=                                                                                                                        # "https://github.com/${GITHUB_USER}/${GITHUB_PROJECT}/releases/download/${PACKAGE_VERSION}/${PROJECT_BIN}-${PACKAGE_VERSION}-${OS}-${ARCH}.xz"
+        PROJECT_ZSTD_URL=                                                                                                                      # "https://github.com/${GITHUB_USER}/${GITHUB_PROJECT}/releases/download/${PACKAGE_VERSION}/${PROJECT_BIN}-${PACKAGE_VERSION}-${OS}-${ARCH}.zst"
         PROJECT_RAR_URL=                                                                                                                       # "https://github.com/${GITHUB_USER}/${GITHUB_PROJECT}/releases/download/${PACKAGE_VERSION}/${PROJECT_BIN}-${PACKAGE_VERSION}-${OS}-${ARCH}.rar"
         PROJECT_ZIP_URL="https://releases.hashicorp.com/${PROJECT_BIN}/${PACKAGE_VERSION}/${PROJECT_BIN}_${PACKAGE_VERSION}_${OS}_${ARCH}.zip" # "https://github.com/${GITHUB_USER}/${GITHUB_PROJECT}/releases/download/${PACKAGE_VERSION}/${PROJECT_BIN}-${PACKAGE_VERSION}-${OS}-${ARCH}.zip"
         INSTALL_SCRIPT_URL=                                                                                                                    # "https://get.${GITHUB_PROJECT}.io" | "https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_PROJECT}/master/bin/install.sh"
@@ -487,38 +497,41 @@ function set_packages_by_distribution() {
         DOCKER_REGISTRY=
         DOCKER_USER=${GITHUB_USER}
         DOCKER_PROJECT=${GITHUB_PROJECT}
-        DOCKER_TAG=latest # latest | latest-alpine | v0.0.1 | $(cd ${HOME}/src/github.com/${GITHUB_USER}/${GITHUB_PROJECT}; git log --pretty=format:'%h' -n 1 | cat) | $(cd ${HOME}/src/github.com/${GITHUB_USER}/${GITHUB_PROJECT}; git log --pretty=format:'%H' -n 1 | cat)
+        DOCKER_TAG=latest # latest | latest-alpine | v0.0.1 | $(cd ${HOME}/src/github.com/${GITHUB_USER}/${GITHUB_PROJECT}; git log --pretty=format:'%h' -n 1 | cat) | $(cd ${HOME}/src/github.com/${GITHUB_USER}/${GITHUB_PROJECT}; git describe --match 'v[0-9]*' --dirty='-dirty' --always | cat)
         OFFICIAL_DOCKER_REGISTRY=
         OFFICIAL_DOCKER_USER=
         OFFICIAL_DOCKER_PROJECT=
         OFFICIAL_DOCKER_TAG=latest
         DOCKER_PARAMETERS=
         DOCKER_COMMAND=${PROJECT_BIN}
+        DOCKER_DETACHED=false
 
         EXTENSION= # a | b
     fi
 }
 
 function set_deployment_settings() {
-    if [ "$#" != "0" ] && [ "$#" != "5" ]; then
-        log_e "Usage: ${FUNCNAME[0]} [<LOCATION> <PLATFORM> <PLATFORM_DISTRO> <RUNTIME> <SSH_USER> <SSH_GROUP>]"
+    if [ "$#" != "0" ] && [ "$#" != "6" ]; then
+        log_e "Usage: ${FUNCNAME[0]} [<LOCATION> <PLATFORM> <PLATFORM_DISTRO>  <KUBERNETES_DISTRO> <RUNTIME> <SSH_USER> <SSH_GROUP>]"
+        log_e "${FUNCNAME[0]} $# ${*}"
     else
-        log_m "${FUNCNAME[0]} ${*}"
+        log_m "${FUNCNAME[0]} $# ${*}"
         # cd "${TOP_DIR:?}" || exit 1
-
-        if [ "$#" == "5" ]; then
+        if [ "$#" == "7" ]; then
             LOCATION="${1}"
             PLATFORM="${2}"
             PLATFORM_DISTRO="${3}"
-            RUNTIME="${4}"
-            SSH_USER="${5}"
-            SSH_GROUP="${6}"
+            KUBERNETES_DISTRO="${4}"
+            RUNTIME="${5}"
+            SSH_USER="${6}"
+            SSH_GROUP="${7}"
             SSH_USER_PASSWORD= # linux
             SSH_USER_PEM=
         else
             LOCATION=${LOCATION:-remote}
             PLATFORM=${PLATFORM:-libvirt}
-            PLATFORM_DISTRO=${PLATFORM_DISTRO:-centos} # centos | ubuntu | mos
+            PLATFORM_DISTRO=${PLATFORM_DISTRO:-centos}  # centos | ubuntu | mos
+            KUBERNETES_DISTRO=${KUBERNETES_DISTRO:-k3s} # k3s | rke2
             RUNTIME=${RUNTIME:-daemon}
             SSH_USER=${PLATFORM_DISTRO}         # centos | ubuntu | mos
             SSH_GROUP=${SSH_GROUP:-remotes_env} # remotes | remotes_env | remotes_mos
@@ -559,8 +572,9 @@ function set_deployment_settings() {
 function dry_run() {
     if [ "$#" != "1" ]; then
         log_e "Usage: ${FUNCNAME[0]} <DEPLOYMENT_DIR>"
+        log_e "${FUNCNAME[0]} $# ${*}"
     else
-        # log_m "${FUNCNAME[0]} ${*}"
+        # log_m "${FUNCNAME[0]} $# ${*}"
         # cd "${TOP_DIR:?}" || exit 1
 
         echo -e "\n>>> Deploy Nodes...\n"
@@ -580,8 +594,9 @@ function dry_run() {
 function show_terraform_state() {
     if [ "$#" != "1" ]; then
         log_e "Usage: ${FUNCNAME[0]} <DEPLOYMENT_DIR> [<TFSTATE_DIR>]"
+        log_e "${FUNCNAME[0]} $# ${*}"
     else
-        # log_m "${FUNCNAME[0]} ${*}"
+        # log_m "${FUNCNAME[0]} $# ${*}"
         # cd "${TOP_DIR:?}" || exit 1
 
         echo -e "\n>>> Show Terraform state in ${1}...\n"
@@ -594,8 +609,9 @@ function show_terraform_state() {
 function clean_runtime() {
     if [ "$#" != "0" ]; then
         log_e "Usage: ${FUNCNAME[0]} <ARGS>"
+        log_e "${FUNCNAME[0]} $# ${*}"
     else
-        # log_m "${FUNCNAME[0]} ${*}"
+        # log_m "${FUNCNAME[0]} $# ${*}"
         cd "${TOP_DIR:?}" || exit 1
 
         sudo rm -rf /tmp/terraform-provider-libvirt-pool-*
@@ -606,25 +622,27 @@ function clean_runtime() {
         sudo find ${ETC}/libvirt -name debian* -exec rm -rf {} \;
         sudo find ${ETC}/libvirt -name fedora* -exec rm -rf {} \;
         sudo find ${ETC}/libvirt -name opensuse* -exec rm -rf {} \;
+        sudo find ${ETC}/libvirt -name oracle* -exec rm -rf {} \;
         sudo find ${ETC}/libvirt -name rancher* -exec rm -rf {} \;
         sudo find ${ETC}/libvirt -name raspios* -exec rm -rf {} \;
         sudo find ${ETC}/libvirt -name sles* -exec rm -rf {} \;
         sudo find ${ETC}/libvirt -name ubuntu* -exec rm -rf {} \;
         sudo find ${ETC}/libvirt -name leap15* -exec rm -rf {} \;
-        sudo rm -rf ${ETC}/libvirt/qemu/{mos,alpine,centos,debian,fedora,opensuse-leap,opensuse-tumbleweed,rancher-k3os,rancher-os,raspios,sles,ubuntu,leap15}-*.xml
-        sudo rm -rf ${ETC}/libvirt/qemu/networks/{mos,alpine,centos,debian,fedora,opensuse-leap,opensuse-tumbleweed,rancher-k3os,rancher-os,raspios,sles,ubuntu,leap15}.xml
-        sudo rm -rf ${ETC}/libvirt/qemu/networks/{mos,alpine,centos,debian,fedora,opensuse-leap,opensuse-tumbleweed,rancher-k3os,rancher-os,raspios,sles,ubuntu,leap15}-network.xml
-        sudo rm -rf ${ETC}/libvirt/qemu/networks/autostart/{mos,alpine,centos,debian,fedora,opensuse-leap,opensuse-tumbleweed,rancher-k3os,rancher-os,raspios,sles,ubuntu,leap15}.xml
-        sudo rm -rf ${ETC}/libvirt/qemu/networks/autostart/{mos,alpine,centos,debian,fedora,opensuse-leap,opensuse-tumbleweed,rancher-k3os,rancher-os,raspios,sles,ubuntu,leap15}-network.xml
-        sudo rm -rf ${ETC}/libvirt/storage/{mos,alpine,centos,debian,fedora,opensuse-leap,opensuse-tumbleweed,rancher-k3os,rancher-os,raspios,sles,ubuntu,leap15}.xml
-        sudo rm -rf ${ETC}/libvirt/storage/autostart/{mos,alpine,centos,debian,fedora,opensuse-leap,opensuse-tumbleweed,rancher-k3os,rancher-os,raspios,sles,ubuntu,leap15}.xml
+        sudo rm -rf ${ETC}/libvirt/qemu{pxe,mos,alpine,centos,debian,fedora,opensuse-leap,opensuse-tumbleweed,oracle-linux,rancher-harvester,rancher-k3os,rancher-os,raspios,sles,ubuntu,leap15}-*.xml
+        sudo rm -rf ${ETC}/libvirt/qemu/networks{pxe,mos,alpine,centos,debian,fedora,opensuse-leap,opensuse-tumbleweed,oracle-linux,rancher-harvester,rancher-k3os,rancher-os,raspios,sles,ubuntu,leap15}.xml
+        sudo rm -rf ${ETC}/libvirt/qemu/networks{pxe,mos,alpine,centos,debian,fedora,opensuse-leap,opensuse-tumbleweed,oracle-linux,rancher-harvester,rancher-k3os,rancher-os,raspios,sles,ubuntu,leap15}-network.xml
+        sudo rm -rf ${ETC}/libvirt/qemu/networks/autostart{pxe,mos,alpine,centos,debian,fedora,opensuse-leap,opensuse-tumbleweed,oracle-linux,rancher-harvester,rancher-k3os,rancher-os,raspios,sles,ubuntu,leap15}.xml
+        sudo rm -rf ${ETC}/libvirt/qemu/networks/autostart{pxe,mos,alpine,centos,debian,fedora,opensuse-leap,opensuse-tumbleweed,oracle-linux,rancher-harvester,rancher-k3os,rancher-os,raspios,sles,ubuntu,leap15}-network.xml
+        sudo rm -rf ${ETC}/libvirt/storage{pxe,mos,alpine,centos,debian,fedora,opensuse-leap,opensuse-tumbleweed,oracle-linux,rancher-harvester,rancher-k3os,rancher-os,raspios,sles,ubuntu,leap15}.xml
+        sudo rm -rf ${ETC}/libvirt/storage/autostart{pxe,mos,alpine,centos,debian,fedora,opensuse-leap,opensuse-tumbleweed,oracle-linux,rancher-harvester,rancher-k3os,rancher-os,raspios,sles,ubuntu,leap15}.xml
         STACK_NAME=my-cluster
         sudo rm -rf ${HOME}/.config/libvirt/qemu/networks/${STACK_NAME}-network.xml
 
         sudo rm -rf ${HOME}/Documents/myImages/libvirt/images
         sudo mkdir -p ${HOME}/Documents/myImages/libvirt/images
         sudo ls -alh ${HOME}/Documents/myImages/libvirt/images
-        sudo rm -rf /var/lib/libvirt/dnsmasq/{mos,alpine,centos,debian,fedora,opensuse-leap,opensuse-tumbleweed,rancher-k3os,rancher-os,raspios,sles,ubuntu,leap15}-network.*
+        sudo rm -rf /var/lib/libvirt/dnsmasq{pxe,mos,alpine,centos,debian,fedora,opensuse-leap,opensuse-tumbleweed,oracle-linux,rancher-harvester,rancher-k3os,rancher-os,raspios,sles,ubuntu,leap15}-network.*
+        sudo rm -rf /var/lib/libvirt/images/*
         sudo rm -rf /var/lib/libvirt/qemu/domain-*
         # VM_IMAGE_DIR=/var/lib/libvirt/images
         # ALT_VM_IMAGE_DIR=${HOME}/Documents/myImages/libvirt/images
@@ -638,8 +656,9 @@ function clean_runtime() {
 function clean_project() {
     if [ "$#" != "0" ]; then
         log_e "Usage: ${FUNCNAME[0]} <ARGS>"
+        log_e "${FUNCNAME[0]} $# ${*}"
     else
-        # log_m "${FUNCNAME[0]} ${*}"
+        # log_m "${FUNCNAME[0]} $# ${*}"
         cd "${TOP_DIR:?}" || exit 1
 
         # find . -name "\.terraform*" -exec rm -rf {} \;
@@ -652,8 +671,9 @@ function clean_project() {
 function list_local_images() {
     if [ "$#" != "0" ]; then
         log_e "Usage: ${FUNCNAME[0]} <ARGS>"
+        log_e "${FUNCNAME[0]} $# ${*}"
     else
-        # log_m "${FUNCNAME[0]} ${*}"
+        # log_m "${FUNCNAME[0]} $# ${*}"
         # cd "${TOP_DIR:?}" || exit 1
 
         # find / -name *.iso 2>/dev/null
@@ -675,6 +695,10 @@ function list_local_images() {
         ls -alh ${HOME}/Documents/myImages/kvm/opensuse-leap/ || true
         echo -e "\n>>> kvm/opensuse tumbleweed...\n"
         ls -alh ${HOME}/Documents/myImages/kvm/opensuse-tumbleweed/ || true
+        echo -e "\n>>> kvm/oracle linux...\n"
+        ls -alh ${HOME}/Documents/myImages/kvm/oracle-linux/ || true
+        echo -e "\n>>> kvm/rancher harvester...\n"
+        ls -alh ${HOME}/Documents/myImages/kvm/rancher-harvester/ || true
         echo -e "\n>>> kvm/rancher k3os...\n"
         ls -alh ${HOME}/Documents/myImages/kvm/rancher-k3os/ || true
         echo -e "\n>>> kvm/rancher os...\n"
@@ -710,49 +734,23 @@ function list_local_images() {
 function ssh_to() {
     if [ "$#" != "1" ] && [ "$#" != "2" ]; then
         log_e "Usage: ${FUNCNAME[0]} <DEPLOYMENT_PLATFORM_DISTRO_TOP_DIR> [<INSTANCES_TYPE>]"
+        log_e "${FUNCNAME[0]} $# ${*}"
     else
-        log_m "${FUNCNAME[0]} ${*}"
+        log_m "${FUNCNAME[0]} $# ${*}"
         # cd "${TOP_DIR:?}" || exit 1
 
         clear
         cd "${1}" || exit 1
-        SSH_USER=$(terraform output username)
+        SSH_USER=$(terraform output username | sed 's/"//g')
         if [ "${SSH_USER}" == "" ]; then
             select_x_from_array "${DISTROS} rancher root ec2-user" "SSH_USER" SSH_USER # mos
         fi
 
         if [ "$#" == "2" ]; then
-            IP_INSTANCES=$(terraform output ${2} | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
+            IP_INSTANCES=$(terraform output ${2} | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d 'tomap(' | tr -d ')' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
             select_x_from_array "${IP_INSTANCES}" "IP" IP
         else
-            case ${INFRASTRUCTURE_DEPLOYMENT_PROJECT} in
-                terraform_env)
-                    IP_ETCDS=$(terraform output ip_etcds | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_STORAGES=$(terraform output ip_storages | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_MASTERS=$(terraform output ip_masters | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_WORKERS=$(terraform output ip_workers | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IPS="${IP_ETCDS[*]} ${IP_STORAGES[*]} ${IP_MASTERS[*]} ${IP_WORKERS[*]}"
-                    echo ">>> IPS: ${#IPS[*]} ${IPS}"
-                    ;;
-                terraform_mos)
-                    IP_ALPINES=$(terraform output ip_alpines | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_CENTOSS=$(terraform output ip_centoss | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_CIRROSS=$(terraform output ip_cirross | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_DEBIANS=$(terraform output ip_debians | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_FEDORAS=$(terraform output ip_fedoras | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_OPENSUSE_LEAPS=$(terraform output ip_opensuse_leaps | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_OPENSUSE_TUMBLEWEEDS=$(terraform output ip_opensuse_tumbleweeds | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_RANCHER_HARVESTERS=$(terraform output ip_rancher_harvesters | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_RANCHER_K3OSS=$(terraform output ip_rancher_k3oss | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_RANCHER_OSS=$(terraform output ip_rancher_oss | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_RASPIOS=$(terraform output ip_raspioss | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_SLESS=$(terraform output ip_sless | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_UBUNTUS=$(terraform output ip_ubuntus | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IPS="${IP_ALPINES} ${IP_CENTOSS[*]} ${IP_CIRROSS[*]} ${IP_DEBIANS[*]} ${IP_FEDORAS[*]} ${IP_OPENSUSE_LEAPS[*]} ${IP_OPENSUSE_TUMBLEWEEDS[*]} ${IP_RANCHER_HARVESTERS[*]} ${IP_RANCHER_K3OSS[*]} ${IP_RANCHER_OSS[*]} ${IP_RASPIOSS[*]} ${IP_SLESS[*]} ${IP_UBUNTUS[*]}"
-                    echo ">>> IPS: ${#IPS[*]} ${IPS}"
-                    ;;
-                *) ;;
-            esac
+            get_terraform_ips ${DEPLOYMENT_PLATFORM_DISTRO_TOP_DIR} ${INFRASTRUCTURE_DEPLOYMENT_PROJECT}
             select_x_from_array "${IPS}" "IP" IP
         fi
 
@@ -764,13 +762,14 @@ function ssh_to() {
 function ssh_command() {
     if [ "$#" != "1" ] && [ "$#" != "2" ]; then
         log_e "Usage: ${FUNCNAME[0]} <DEPLOYMENT_PLATFORM_DISTRO_TOP_DIR> [<INSTANCES_TYPE>]"
+        log_e "${FUNCNAME[0]} $# ${*}"
     else
-        log_m "${FUNCNAME[0]} ${*}"
+        log_m "${FUNCNAME[0]} $# ${*}"
         # cd "${TOP_DIR:?}" || exit 1
 
         clear
         cd "${1}" || exit 1
-        SSH_USER=$(terraform output username)
+        SSH_USER=$(terraform output username | sed 's/"//g')
         if [ "${SSH_USER}" == "" ]; then
             select_x_from_array "${DISTROS} rancher root ec2-user" "SSH_USER" SSH_USER # "mos"
         fi
@@ -778,34 +777,7 @@ function ssh_command() {
         if [ "$#" == "2" ]; then
             IPS=$(terraform output ${2} | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
         else
-            case ${INFRASTRUCTURE_DEPLOYMENT_PROJECT} in
-                terraform_env)
-                    IP_ETCDS=$(terraform output ip_etcds | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_STORAGES=$(terraform output ip_storages | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_MASTERS=$(terraform output ip_masters | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_WORKERS=$(terraform output ip_workers | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IPS="${IP_ETCDS[*]} ${IP_STORAGES[*]} ${IP_MASTERS[*]} ${IP_WORKERS[*]}"
-                    echo ">>> IPS: ${#IPS[*]} ${IPS}"
-                    ;;
-                terraform_mos)
-                    IP_ALPINES=$(terraform output ip_alpines | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_CENTOSS=$(terraform output ip_centoss | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_CIRROSS=$(terraform output ip_cirross | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_DEBIANS=$(terraform output ip_debians | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_FEDORAS=$(terraform output ip_fedoras | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_OPENSUSE_LEAPS=$(terraform output ip_opensuse_leaps | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_OPENSUSE_TUMBLEWEEDS=$(terraform output ip_opensuse_tumbleweeds | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_RANCHER_HARVESTERS=$(terraform output ip_rancher_harvesters | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_RANCHER_K3OSS=$(terraform output ip_rancher_k3oss | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_RANCHER_OSS=$(terraform output ip_rancher_oss | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_RASPIOS=$(terraform output ip_raspioss | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_SLESS=$(terraform output ip_sless | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IP_UBUNTUS=$(terraform output ip_ubuntus | cut -d "=" -f 2 | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | sed ':a;N;$!ba;s/\n/ /g' | tr -d '{' | tr -d '}' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//' | tr -d '"')
-                    IPS="${IP_ALPINES} ${IP_CENTOSS[*]} ${IP_CIRROSS[*]} ${IP_DEBIANS[*]} ${IP_FEDORAS[*]} ${IP_OPENSUSE_LEAPS[*]} ${IP_OPENSUSE_TUMBLEWEEDS[*]} ${IP_RANCHER_HARVESTERS[*]} ${IP_RANCHER_K3OSS[*]} ${IP_RANCHER_OSS[*]} ${IP_RASPIOSS[*]} ${IP_SLESS[*]} ${IP_UBUNTUS[*]}"
-                    echo ">>> IPS: ${#IPS[*]} ${IPS}"
-                    ;;
-                *) ;;
-            esac
+            get_terraform_ips ${DEPLOYMENT_PLATFORM_DISTRO_TOP_DIR} ${INFRASTRUCTURE_DEPLOYMENT_PROJECT}
         fi
 
         echo "${SSH_USER}" "${IPS}"
@@ -847,7 +819,8 @@ if [ "${ACTION}" == "" ]; then
 fi
 
 # if [ "${XXX}" == "" ]; then
-#     # select_x_from_array "a b c" "XXX" XXX # "a"
+#     # OPTIONS="a b c"
+#     # select_x_from_array "${OPTIONS}" "XXX" XXX # "a"
 #     read_and_confirm "XXX MSG" XXX # "XXX set value"
 # fi
 

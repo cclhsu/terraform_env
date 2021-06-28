@@ -62,15 +62,15 @@ runcmd:
   - sed -i -e '/^#PasswordAuthentication/s/^.*$/PasswordAuthentication no/' /etc/ssh/sshd_config
   - sshd -t || echo "ssh syntax failure"
   - systemctl restart sshd
-  - ulimit -c unlimited
-  - install -m 1777 -d /var/lib/systemd/coredump
-  - echo '|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %e' > /proc/sys/kernel/core_pattern
-  - /usr/lib/systemd/systemd-sysctl --prefix kernel.core_pattern
-  - echo 'kernel.core_pattern=|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %e' >> /etc/sysctl.d/50-coredump.conf
-  - /usr/lib/systemd/systemd-sysctl /etc/sysctl.d/50-coredump.conf
-  - /sbin/rcapparmor stop || true
-  - echo 'kernel.suid_dumpable = 2' >> /etc/sysctl.d/suid_dumpable.conf
-  - /usr/lib/systemd/systemd-sysctl /etc/sysctl.d/suid_dumpable.conf
+  # - ulimit -c unlimited
+  # - install -m 1777 -d /var/lib/systemd/coredump
+  # - echo '|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %e' > /proc/sys/kernel/core_pattern
+  # - /usr/lib/systemd/systemd-sysctl --prefix kernel.core_pattern
+  # - echo 'kernel.core_pattern=|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %e' >> /etc/sysctl.d/50-coredump.conf
+  # - /usr/lib/systemd/systemd-sysctl /etc/sysctl.d/50-coredump.conf
+  # - /sbin/rcapparmor stop || true
+  # - echo 'kernel.suid_dumpable = 2' >> /etc/sysctl.d/suid_dumpable.conf
+  # - /usr/lib/systemd/systemd-sysctl /etc/sysctl.d/suid_dumpable.conf
 ${register_scc}
 ${register_rmt}
 ${commands}

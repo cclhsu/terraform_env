@@ -1,10 +1,20 @@
 #cloud-config
 ssh_authorized_keys:
-  - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAWW/r4lefNWqQ2g4RRrNe9wlVdhHq2xIJkXsYwgfjO5"
+${authorized_keys}
+# - github:cclhsu
 
 k3os:
-  k3s_args:
-    - "agent"
+  # k3s_args:
+  # - "agent"
+  labels:
+    k3os.io/upgrade: enabled
+    k3s-upgrade: true
+  dns_nameservers:
+  - 8.8.8.8
+  - 1.1.1.1
+  ntp_servers:
+  - 0.us.pool.ntp.org
+  - 1.us.pool.ntp.org
 
 # ssh_authorized_keys:
 # $${authorized_keys}

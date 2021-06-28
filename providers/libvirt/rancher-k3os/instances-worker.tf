@@ -47,7 +47,12 @@ resource "libvirt_domain" "worker" {
     libvirt_cloudinit_disk.worker.*.id,
     count.index
   )
-  depends_on = [libvirt_domain.lb, ]
+  depends_on = [
+    libvirt_domain.lb,
+    null_resource.lb_push_http_server_cfg,
+    libvirt_domain.master,
+    null_resource.wait_for_cluster
+  ]
 
   network_interface {
     network_name   = var.network_name
@@ -76,13 +81,18 @@ resource "libvirt_domain" "worker" {
   }
 
   # kernel = libvirt_volume.kernel.id
+  # initrd = libvirt_volume.initrd.id
+  # squashfs = libvirt_volume.squashfs.id
+
   # cmdline = [
   #   {
+  #     # "k3os.mode"               = "install"
   #     "k3os.fallback_mode"      = "install"
-  #     "k3os.install.config_url" = "https://raw.githubusercontent.com/camptocamp/terraform-libvirt-k3os/master/config-agent.yaml"
+  #     "k3os.install.config_url" = format("http://%s:80/cloud-init-agent.yaml", libvirt_domain.lb.0.network_interface.0.addresses.0)
   #     "k3os.install.silent"     = true
   #     "k3os.install.device"     = "/dev/vda"
-  #     "k3os.server_url"         = format("https://%s:6443", libvirt_domain.master.*.network_interface.0.addresses.0)
+  #     "k3os.server_url"         = format("https://%s:6443", libvirt_domain.master.0.network_interface.0.addresses.0)
+  #     "k3os.password"           = var.password
   #     "k3os.token"              = random_password.k3s_token.result
   #   },
   # ]
@@ -93,6 +103,10 @@ resource "libvirt_domain" "worker" {
       count.index
     )
   }
+
+  # disk {
+  #   file = libvirt_volume.iso.id
+  # }
 
   graphics {
     type        = "vnc"

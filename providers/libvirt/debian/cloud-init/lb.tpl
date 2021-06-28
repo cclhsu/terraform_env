@@ -22,6 +22,7 @@ timezone: Etc/UTC
 
 users:
   - name: ${username}
+    passwd: ${password}
     ssh-authorized-keys:
       ${authorized_keys}
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
@@ -56,9 +57,6 @@ ${ntp_servers}
 
 packages:
   - haproxy
-  - apache2
-  - httpd
-  - nginx
 ${packages}
 
 # set hostname
@@ -68,10 +66,10 @@ bootcmd:
   - ip link set dev eth0 mtu 1500
 
 runcmd:
-  # Set node's hostname from DHCP server
-  - netconfig -f update
-  - sed -i -e '/^DHCLIENT_SET_HOSTNAME/s/^.*$/DHCLIENT_SET_HOSTNAME=\"${hostname_from_dhcp}\"/' /etc/sysconfig/network/dhcp
-  - systemctl restart wicked
+  # # Set node's hostname from DHCP server
+  # - netconfig -f update
+  # - sed -i -e '/^DHCLIENT_SET_HOSTNAME/s/^.*$/DHCLIENT_SET_HOSTNAME=\"${hostname_from_dhcp}\"/' /etc/sysconfig/network/dhcp
+  # - systemctl restart wicked
 ${commands}
 
 final_message: "The system is finally up, after $UPTIME seconds"

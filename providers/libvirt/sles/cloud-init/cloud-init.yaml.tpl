@@ -22,6 +22,7 @@ timezone: Etc/UTC
 
 users:
   - name: ${username}
+    passwd: ${password}
     ssh-authorized-keys:
       ${authorized_keys}
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
@@ -76,10 +77,11 @@ bootcmd:
   - ip link set dev eth0 mtu 1500
 
 runcmd:
-  # Set node's hostname from DHCP server
-  - netconfig -f update
-  - sed -i -e '/^DHCLIENT_SET_HOSTNAME/s/^.*$/DHCLIENT_SET_HOSTNAME=\"${hostname_from_dhcp}\"/' /etc/sysconfig/network/dhcp
-  - systemctl restart wicked
+  # # Set node's hostname from DHCP server
+  # - netconfig -f update
+  # - sed -i -e '/^DHCLIENT_SET_HOSTNAME/s/^.*$/DHCLIENT_SET_HOSTNAME=\"${hostname_from_dhcp}\"/' /etc/sysconfig/network/dhcp
+  # - systemctl restart wicked
+  - sed -i 's/#PasswordAuthentication .*/PasswordAuthentication yes/g' /etc/ssh/sshd_config
   - sed -i 's/#GSSAPIAuthentication no/GSSAPIAuthentication no/g' /etc/ssh/sshd_config
   - sed -i 's/#UseDNS yes/UseDNS no/g' /etc/ssh/sshd_config
 ${register_scc}

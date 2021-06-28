@@ -1,0 +1,164 @@
+# URL of the libvirt server
+# EXAMPLE:
+# libvirt_uri = "test:///default"
+# libvirt_uri = "qemu:///system"
+# libvirt_uri = "qemu:///session"
+# libvirt_uri = "qemu:///session?socket=${HOME}/.cache/libvirt/libvirt-sock"
+# libvirt_uri = "qemu+ssh://root@192.168.100.10/system"
+# libvirt_uri = "qemu+ssh://root@192.168.100.10/session"
+# libvirt_uri = "qemu+ssh://${SSH_USER}@${FQDN}/system?socket=/var/run/libvirt/libvirt-sock"
+# libvirt_uri = "qemu+ssh://${SSH_USER}@${FQDN}/session?socket=${HOME}/.cache/libvirt/libvirt-sock"
+libvirt_uri = "qemu:///system"
+
+# Path of the key file used to connect to the libvirt server
+# Note this value will be appended to the libvirt_uri as a 'keyfile' query: <libvirt_uri>?keyfile=<libvirt_keyfile>
+# EXAMPLE:
+# libvirt_keyfile = "~/.ssh/custom_id"
+libvirt_keyfile = ""
+
+# # # Pool to be used to store all the volumes
+# pool = "pool"
+
+# URL of the image to use
+# EXAMPLE:
+# lb_image_uri = "CentOS-7-x86_64-GenericCloud.qcow2"
+# lb_image_uri = "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2"
+lb_image_uri = "${HOME}/Documents/myImages/kvm/alpine/alpine-standard-3.12.3-x86_64.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/centos/CentOS-7-x86_64-GenericCloud.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/centos/CentOS-7-x86_64-GenericCloud-2009.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/centos/CentOS-8-GenericCloud-8.2.2004-20200611.2.x86_64.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/centos/CentOS-8-GenericCloud-8.3.2011-20201204.2.x86_64.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/centos/CentOS-8-GenericCloud-8.4.2105-20210603.0.x86_64.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/coreos/fedora-coreos-33.20210217.3.0-qemu.x86_64.qcow2.xz"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/debian/debian-10.5.0-openstack-amd64.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/fedora/Fedora-Cloud-Base-32-1.6.x86_64.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/opensuse-leap/openSUSE-Leap-15.3-OpenStack.x86_64.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/opensuse-tumbleweed/openSUSE-Tumbleweed-JeOS.x86_64-OpenStack-Cloud.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/oracle-linux/OL7U9_x86_64-olvm-b86.qcow2"
+lb_image_uri = "${HOME}/Documents/myImages/kvm/oracle-linux/OL8U4_x86_64-olvm-b85.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/rancher-harvester/harvester-amd64.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/rancher-k3os/k3os-amd64.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/rancher-os/rancheros.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/raspios/2020-12-11-raspios-buster-i386.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/sles/SLES15-SP2-JeOS.x86_64-15.3-OpenStack-Cloud-GM.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/ubuntu/ubuntu-18.04-server-cloudimg-amd64.img"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/ubuntu/ubuntu-20.04-server-cloudimg-amd64.img"
+
+# URL of the image to use
+# EXAMPLE:
+# image_uri = "OL7U9_x86_64-olvm-b86.qcow2"
+# image_uri="https://yum.oracle.com/templates/OracleLinux/OL7/u9/x86_64/OL7U9_x86_64-olvm-b86.qcow2"
+# image_uri = "${HOME}/Documents/myImages/kvm/oracle-linux/OL7U9_x86_64-olvm-b86.qcow2"
+# image_uri = "OL8U4_x86_64-olvm-b85.qcow2"
+# image_uri="https://yum.oracle.com/templates/OracleLinux/OL8/u4/x86_64/OL8U4_x86_64-olvm-b85.qcow2"
+image_uri = "${HOME}/Documents/myImages/kvm/oracle-linux/OL8U4_x86_64-olvm-b85.qcow2"
+
+# Identifier to make all your resources unique and avoid clashes with other users of this terraform project
+# stack_name = "my-oracle-linux-cluster"
+stack_name = "oracle-linux"
+
+# CIDR of the network
+network_cidr = "10.17.0.0/22"
+
+# Enable creation of LB node
+create_lb = true
+
+# Number of etcd nodes
+etcds       = 0
+etcd_memory = 5120
+
+# Number of storage nodes
+storages       = 0
+storage_memory = 5120
+
+# Number of master nodes
+masters       = 1
+master_memory = 5120
+master_vcpu   = 2
+
+# Number of worker nodes
+workers       = 3
+worker_memory = 5120
+worker_vcpu   = 4
+# worker_disk_size= 107374182400
+
+# Name of DNS domain
+dns_domain = "oracle-linux.local"
+
+# Username for the cluster nodes
+# EXAMPLE:
+username = "oracle-linux"
+
+# Password for the cluster nodes
+# EXAMPLE:
+password = "linux"
+
+# define the repositories to use for the loadbalancer node
+# EXAMPLE:
+# lb_repositories = {
+#   repository1 = "http://example.my.repo.com/repository1/"
+#   repository2 = "http://example.my.repo.com/repository2/"
+# }
+lb_repositories = {}
+
+# Optional: Define the repositories to use
+# EXAMPLE:
+# repositories = {
+#   repository1 = "http://example.my.repo.com/repository3/"
+#   repository2 = "http://example.my.repo.com/repository4/"
+# }
+repositories = {}
+
+# Minimum required packages. Do not remove them.
+# Feel free to add more packages
+packages = [
+  "util-linux",
+  "python3",
+  "curl",
+  "wget",
+  "rsync",
+  "jq",
+  "which",
+  "openssl",
+  "iscsi-initiator-utils",
+  "nfs-utils",
+  "tar",
+  "zip",
+  "unzip",
+  "gzip",
+  "zstd"
+]
+
+# ssh keys to inject into all the nodes
+# EXAMPLE:
+# authorized_keys = [
+#  "ssh-rsa <key-content>"
+# ]
+authorized_keys = [
+  ""
+]
+
+# ssh key to launch the nodes with
+# EXAMPLE:
+# key_pair = "my_keypair"
+
+# IMPORTANT: Replace these ntp servers with ones from your infrastructure
+ntp_servers = ["TIME.google.com", "TIME1.google.com", "TIME2.google.com", "TIME3.google.com", "TIME4.google.com"]
+
+# DNS servers for the nodes
+# dns_nameservers = [
+#     "172.28.0.2",
+#     "8.8.8.8",
+#     "8.8.4.4",
+#     "1.1.1.1",
+#     "1.0.0.1",
+#     "168.95.1.1",
+#     "168.95.192.1"
+# ]
+dns_nameservers = [
+  "8.8.8.8",
+  "8.8.4.4"
+]
+
+# Set node's hostname from DHCP server
+#hostname_from_dhcp = false

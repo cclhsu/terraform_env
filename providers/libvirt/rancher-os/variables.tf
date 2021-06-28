@@ -69,8 +69,10 @@ variable "packages" {
 
   default = [
     "openssl",
-    "open-iscsi",
-    "nfs-kernel-server"
+    "python3",
+    "curl",
+    "rsync",
+    "jq",
   ]
 
   description = "List of packages to install"

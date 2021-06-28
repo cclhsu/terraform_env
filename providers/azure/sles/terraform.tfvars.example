@@ -123,11 +123,11 @@ workers = 1
 # lb_repositories = {}
 
 repositories = {
-  devel_gcc              = "https://download.opensuse.org/repositories/devel:/gcc/openSUSE_Leap_15.2/"
-  devel_languages_go     = "http://download.opensuse.org/repositories/devel:/languages:/go/openSUSE_Leap_15.2/"
-  devel_languages_nodejs = "https://download.opensuse.org/repositories/devel:/languages:/nodejs/openSUSE_Leap_15.2/"
-  devel_languages_python = "http://download.opensuse.org/repositories/devel:/languages:/python/openSUSE_Leap_15.2/"
-  devel_languages_rust   = "http://download.opensuse.org/repositories/devel:/languages:/rust/openSUSE_Leap_15.2/"
+  devel_gcc              = "https://download.opensuse.org/repositories/devel:/gcc/openSUSE_Leap_15.3/"
+  devel_languages_go     = "http://download.opensuse.org/repositories/devel:/languages:/go/openSUSE_Leap_15.3/"
+  devel_languages_nodejs = "https://download.opensuse.org/repositories/devel:/languages:/nodejs/openSUSE_Leap_15.3/"
+  devel_languages_python = "http://download.opensuse.org/repositories/devel:/languages:/python/openSUSE_Leap_15.3/"
+  devel_languages_rust   = "http://download.opensuse.org/repositories/devel:/languages:/rust/openSUSE_Leap_15.3/"
   virtualization         = "https://download.opensuse.org/repositories/Virtualization/SLE_15_SP2/"
 }
 

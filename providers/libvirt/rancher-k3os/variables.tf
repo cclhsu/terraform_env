@@ -46,6 +46,12 @@ variable "image_uri" {
 #   description = "URL of the initrd to use"
 # }
 
+# variable "squashfs_uri" {
+#   type        = string
+#   default     = ""
+#   description = "URL of the squashfs to use"
+# }
+
 # variable "iso_uri" {
 #   type        = string
 #   default     = ""
@@ -93,8 +99,10 @@ variable "packages" {
 
   default = [
     "openssl",
-    "open-iscsi",
-    "nfs-kernel-server"
+    "python3",
+    "curl",
+    "rsync",
+    "jq",
   ]
 
   description = "List of packages to install"
@@ -146,6 +154,18 @@ variable "create_http_server" {
   type        = bool
   default     = true
   description = "Create http server in load balancer node"
+}
+
+variable "wait_for_cluster_cmd" {
+  description = "Custom local-exec command to execute for determining if the eks cluster is healthy. Cluster endpoint will be available as an environment variable called ENDPOINT"
+  default     = "for i in `seq 1 60`; do if `command -v wget > /dev/null`; then wget --no-check-certificate -O - -q $ENDPOINT/ping >/dev/null && exit 0 || true; else curl -k -s $ENDPOINT/ping >/dev/null && exit 0 || true;fi; sleep 5; done; echo TIMEOUT && exit 1"
+  type        = string
+}
+
+variable "wait_for_cluster_interpreter" {
+  description = "Custom local-exec command line interpreter for the command to determining if the eks cluster is healthy."
+  default     = ["/bin/sh", "-c"]
+  type        = list(string)
 }
 
 variable "lb_memory" {

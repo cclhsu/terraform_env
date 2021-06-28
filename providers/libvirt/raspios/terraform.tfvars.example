@@ -21,20 +21,28 @@ libvirt_keyfile = ""
 
 # URL of the image to use
 # EXAMPLE:
-# lb_image_uri = "${HOME}/Documents/myImages/kvm/alpine/alpine-standard-3.12.3-x86_64.qcow2"
 # lb_image_uri = "CentOS-7-x86_64-GenericCloud.qcow2"
 # lb_image_uri = "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2"
+lb_image_uri = "${HOME}/Documents/myImages/kvm/alpine/alpine-standard-3.12.3-x86_64.qcow2"
 # lb_image_uri = "${HOME}/Documents/myImages/kvm/centos/CentOS-7-x86_64-GenericCloud.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/centos/CentOS-7-x86_64-GenericCloud-2009.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/centos/CentOS-8-GenericCloud-8.2.2004-20200611.2.x86_64.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/centos/CentOS-8-GenericCloud-8.3.2011-20201204.2.x86_64.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/centos/CentOS-8-GenericCloud-8.4.2105-20210603.0.x86_64.qcow2"
 # lb_image_uri = "${HOME}/Documents/myImages/kvm/coreos/fedora-coreos-33.20210217.3.0-qemu.x86_64.qcow2.xz"
 # lb_image_uri = "${HOME}/Documents/myImages/kvm/debian/debian-10.5.0-openstack-amd64.qcow2"
 # lb_image_uri = "${HOME}/Documents/myImages/kvm/fedora/Fedora-Cloud-Base-32-1.6.x86_64.qcow2"
-# lb_image_uri = "${HOME}/Documents/myImages/kvm/opensuse-leap/openSUSE-Leap-15.2-OpenStack.x86_64.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/opensuse-leap/openSUSE-Leap-15.3-OpenStack.x86_64.qcow2"
 # lb_image_uri = "${HOME}/Documents/myImages/kvm/opensuse-tumbleweed/openSUSE-Tumbleweed-JeOS.x86_64-OpenStack-Cloud.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/oracle-linux/OL7U9_x86_64-olvm-b86.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/oracle-linux/OL8U4_x86_64-olvm-b85.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/rancher-harvester/harvester-amd64.qcow2"
 # lb_image_uri = "${HOME}/Documents/myImages/kvm/rancher-k3os/k3os-amd64.qcow2"
 # lb_image_uri = "${HOME}/Documents/myImages/kvm/rancher-os/rancheros.qcow2"
 lb_image_uri = "${HOME}/Documents/myImages/kvm/raspios/2020-12-11-raspios-buster-i386.qcow2"
-# lb_image_uri = "${HOME}/Documents/myImages/kvm/sles/SLES15-SP2-JeOS.x86_64-15.2-OpenStack-Cloud-GM.qcow2"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/sles/SLES15-SP2-JeOS.x86_64-15.3-OpenStack-Cloud-GM.qcow2"
 # lb_image_uri = "${HOME}/Documents/myImages/kvm/ubuntu/ubuntu-18.04-server-cloudimg-amd64.img"
+# lb_image_uri = "${HOME}/Documents/myImages/kvm/ubuntu/ubuntu-20.04-server-cloudimg-amd64.img"
 
 # URL of the image to use
 # EXAMPLE:
@@ -69,6 +77,7 @@ master_vcpu   = 2
 workers       = 3
 worker_memory = 5120
 worker_vcpu   = 4
+# worker_disk_size= 107374182400
 
 # Name of DNS domain
 dns_domain = "raspios.local"
@@ -100,6 +109,7 @@ repositories = {}
 # Minimum required packages. Do not remove them.
 # Feel free to add more packages
 packages = [
+  "util-linux",
   "python3",
   "curl",
   "wget",
@@ -108,7 +118,12 @@ packages = [
   "which",
   "openssl",
   "open-iscsi",
-  "nfs-kernel-server"
+  "nfs-kernel-server",
+  "tar",
+  "zip",
+  "unzip",
+  "gzip",
+  "zstd"
 ]
 
 # ssh keys to inject into all the nodes

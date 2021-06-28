@@ -9,7 +9,7 @@ provider "libvirt" {
 #   path = "/tmp/terraform-provider-libvirt-pool-${var.pool}"
 # }
 
-# We fetch the latest sles release image from their mirrors
+# We fetch the latest release image from their mirrors
 resource "libvirt_volume" "image" {
   name   = "${var.stack_name}-${basename(var.image_uri)}"
   source = var.image_uri

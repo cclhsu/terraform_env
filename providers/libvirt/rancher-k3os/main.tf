@@ -9,7 +9,7 @@ provider "libvirt" {
 #   path = "/tmp/terraform-provider-libvirt-pool-${var.pool}"
 # }
 
-# We fetch the latest rancher-k3os release image from their mirrors
+# We fetch the latest release image from their mirrors
 resource "libvirt_volume" "image" {
   name   = "${var.stack_name}-${basename(var.image_uri)}"
   source = var.image_uri
@@ -29,6 +29,14 @@ resource "libvirt_volume" "image" {
 #   name   = "initrd-${var.stack_name}"
 #   # source = "https://github.com/rancher/k3os/releases/download/${var.k3os_version}/k3os-initrd-amd64"
 #   source = var.initrd_uri
+#   pool   = var.pool
+#   format = "raw"
+# }
+
+# resource "libvirt_volume" "squashfs" {
+#   name = "squashfs-${var.stack_name}"
+#   # source = "https://github.com/rancher/k3os/releases/download/${var.k3os_version}/k3os-kernel-amd64.squashfs"
+#   source = var.squashfs_uri
 #   pool   = var.pool
 #   format = "raw"
 # }

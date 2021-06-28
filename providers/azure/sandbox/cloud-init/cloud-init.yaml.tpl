@@ -22,6 +22,7 @@ timezone: Etc/UTC
 
 # users:
 #   - name: $${username}
+#     passwd: $${password}
 #     ssh-authorized-keys:
 #       $${authorized_keys}
 #     sudo: ['ALL=(ALL) NOPASSWD:ALL']

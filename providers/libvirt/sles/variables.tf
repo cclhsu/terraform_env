@@ -69,8 +69,6 @@ variable "packages" {
 
   default = [
     "openssl",
-    "open-iscsi",
-    "nfs-kernel-server",
     "kernel-default",
     "-kernel-default-base",
   ]
